@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar *ngIf="!showSearchBar">
+    <ion-title>
+      <div class="book-title" (click)="openBooks()">{{book.shortName}}</div>
+      <div class="chapter-title" (click)="openChapters()">{{currentChapterNumber}}</div>
+    </ion-title>
+    <ion-buttons end *ngIf="!showSearchBar">
+      <button ion-button icon-only (click)="openSearchBar()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-navbar *ngIf="showSearchBar">
+    <ion-searchbar
+      #searchbar      
+      placeholder="Pesquisar"
+      autocomplete="on"
+      animated="true"
+      debounce="600"
+      showCancelButton="true"
+      cancelButtonText="Cancelar"
+      color="light"
+      (ionInput)="searchThis($event)" 
+      (ionCancel)="cancelSearch($event)" >
+    </ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content [hidden]="!showSearchBar">
+  <ion-list inset [virtualScroll]="searchResults | async">
+
+    <ion-item text-wrap *virtualItem="let result">
+      <!--<ion-icon item-left small name="search" style="color: #cccccc; font-weight: normal"></ion-icon>-->
+      <h2>{{result.verse.text}}</h2>
+      <p>{{result.book.shortName}} {{result.chapterNumber}}:{{result.verse.number}}</p>
+    </ion-item>
+
+  </ion-list>
+</ion-content>
+
+<ion-content [hidden]="showSearchBar">
+  <ion-slides #chapterSlider (ionSlideDidChange)="onChapterChanged()" [initialSlide]="initialSlide">
+
+    <ion-slide #chapterSlide *ngFor="let chapter of chapters">
+      <div padding class="chapter-header">
+        <h2>Capítulo {{chapter.number}}</h2>
+        <h3>{{book.name}}</h3>
+      </div>
+
+      <ion-list no-lines>
+        <ion-item text-wrap [attr.id]="'c' + chapter.number + 'v' + verse.number" (click)="onVerseHold($event)" *ngFor="let verse of chapter.verses">
+          <p item-left>{{verse.number}}.</p>{{verse.text}} <ion-icon *ngIf="verse.number == 3" name="bookmark" style="color: #9BC53D"></ion-icon>
+        </ion-item>
+      </ion-list>
+
+      <div style="height: 100px"></div>
+    </ion-slide>
+
+  </ion-slides>
+
+  <ion-fab bottom [hidden]="!showActions" [@showactions]="stateActions">
+    <button ion-fab (click)="addToBookmark()"><ion-icon name="bookmark" ios="ios-bookmark-outline"></ion-icon></button>
+    <button ion-fab outline (click)="openInteractivity()"><ion-icon name="open" ios="ios-open-outline"></ion-icon></button>
+    <button ion-fab (click)="share()"><ion-icon name="share" ios="ios-share-outline"></ion-icon></button>
+  </ion-fab>
+</ion-content>

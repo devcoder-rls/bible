@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Bíblia Sagrada</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item no-lines *ngFor="let book of books" (click)="openChapters($event, book)" >{{book.shortName}}</button>
+  </ion-list>
+</ion-content>

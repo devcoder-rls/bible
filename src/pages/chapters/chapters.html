@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Capítulos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list no-lines>
+    <button ion-item *ngFor="let number of chaptersNumber" (click)="openBook($event, number)">{{number}}º Capítulo</button>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,92 @@
+<ion-header>
+ <ion-toolbar>
+    <ion-title>Apocalipse, 7:9 a 17</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span showWhen="ios">Cancelar</span>
+        <ion-icon name="md-close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div padding>
+    <ion-segment [(ngModel)]="category">
+      <ion-segment-button value="explanation">Explicações</ion-segment-button>
+      <ion-segment-button value="quotes">Citações</ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="category">
+    <ion-list *ngSwitchCase="'explanation'">
+      <button ion-item (click)="openUrl('https://www.youtube.com/watch?v=yQh0axBdmNo')">
+        <ion-thumbnail item-left>
+          <img src="assets/icon/youtube.jpg" />
+        </ion-thumbnail>
+        <h2>Quem é Deus?</h2>
+        <p>Quem é Deus? Por que esse combate da Religião Divina à visão do Deus antropomórfico? Quem responde é o ..</p>
+      </button>
+
+      <button ion-item (click)="openUrl('http://www.paivanetto.com/pt/ciencia/questao-de-morte-ou-de-vida')">
+        <ion-thumbnail item-left>
+          <img src="assets/icon/blogpaivanetto.png" />
+        </ion-thumbnail>
+        <h2>Questão de Morte ou de Vida?</h2>
+        <p>Será essa questão da morte realmente uma questão de morte?...</p>
+      </button>
+
+      <button ion-item (click)="openUrl('https://www.youtube.com/watch?v=yQh0axBdmNo')">
+        <ion-thumbnail item-left>
+          <img src="assets/icon/youtube.jpg" />
+        </ion-thumbnail>
+        <h2>Quem é Deus?</h2>
+        <p>Quem é Deus? Por que esse combate da Religião Divina à visão do Deus antropomórfico? Quem responde é o ..</p>
+      </button>
+
+      <button ion-item (click)="openUrl('http://www.paivanetto.com/pt/ciencia/questao-de-morte-ou-de-vida')">
+        <ion-thumbnail item-left>
+          <img src="assets/icon/blogpaivanetto.png" />
+        </ion-thumbnail>
+        <h2>Questão de Morte ou de Vida?</h2>
+        <p>Será essa questão da morte realmente uma questão de morte?...</p>
+      </button>
+
+      <button ion-item (click)="openUrl('https://www.youtube.com/watch?v=yQh0axBdmNo')">
+        <ion-thumbnail item-left>
+          <img src="assets/icon/youtube.jpg" />
+        </ion-thumbnail>
+        <h2>Quem é Deus?</h2>
+        <p>Quem é Deus? Por que esse combate da Religião Divina à visão do Deus antropomórfico? Quem responde é o ..</p>
+      </button>
+
+      <button ion-item (click)="openUrl('http://www.paivanetto.com/pt/ciencia/questao-de-morte-ou-de-vida')">
+        <ion-thumbnail item-left>
+          <img src="assets/icon/blogpaivanetto.png" />
+        </ion-thumbnail>
+        <h2>Questão de Morte ou de Vida?</h2>
+        <p>Será essa questão da morte realmente uma questão de morte?...</p>
+      </button>
+
+      <button ion-item (click)="openUrl('https://www.youtube.com/watch?v=yQh0axBdmNo')">
+        <ion-thumbnail item-left>
+          <img src="assets/icon/youtube.jpg" />
+        </ion-thumbnail>
+        <h2>Quem é Deus?</h2>
+        <p>Quem é Deus? Por que esse combate da Religião Divina à visão do Deus antropomórfico? Quem responde é o ..</p>
+      </button>
+
+    </ion-list>
+    <ion-list *ngSwitchCase="'quotes'">
+      <ion-item text-wrap>
+        <h2>Razão e Fascínio</h2>
+        <p>Livro Diretrizes da Religião de Deus, volume 1, pág 56</p>
+      </ion-item>
+      <ion-item text-wrap>
+        <h2>Les Misérables ontem e hoje</h2>
+        <p>Revista Jesus Está Chegando, edição 125, pág 13</p>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
