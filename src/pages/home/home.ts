@@ -19,7 +19,7 @@ export class HomePage {
   }
 
   openLastBook() {
-    let book: BookModel = new BookModel('mateus', 'Evangelho de Jesus segundo Mateus', 'Mateus', 29);
+    let book: BookModel = new BookModel('genesis', 'Gênesis', 'Gênesis', 50);
 
     this.navCtrl.setRoot(BookPage, {
       book: book,
