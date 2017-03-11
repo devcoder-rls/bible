@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { BookModel }  from '../models/book-model'
-import { ChapterModel, VerseModel }  from '../models/chapter-model'
+import { ChapterModel, PassageModel, VerseModel }  from '../models/chapter-model'
 
 @Injectable()
 export class ChapterService {
@@ -16,12 +16,18 @@ export class ChapterService {
     .map(res => {       
       let response = res.json();
 
-      let verses: Array<VerseModel> = [];
+      let passages: Array<PassageModel> = [];
 
-      for (var v of response.verses)
-        verses.push(new VerseModel(v.number, v.text));
+      for (var p of response.content) {
+        let verses: Array<VerseModel> = [];
 
-      return new ChapterModel(book, number, verses);
+        for (var v of p.verses)
+          verses.push(new VerseModel(v.number, v.text));
+
+        passages.push(new PassageModel(p.text, verses));
+      }
+
+      return new ChapterModel(book, number, passages);
     });
   }
 

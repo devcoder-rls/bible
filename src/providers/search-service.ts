@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
 import { BookService }  from './book-service'
 import { ChapterService }  from './chapter-service'
@@ -31,10 +31,11 @@ export class SearchService {
                 self.chapterService.get(book, i)
                 .map(
                   chapter => {
-                    //console.log(chapter.book, chapter.number);
-                    for(var verse of chapter.verses) {
-                      if (verse.text.includes(keywork))
-                        results.push(new SearchResultModel(chapter.book, chapter.number, verse));
+                    for(var passage of chapter.passages) {
+                      for(var verse of passage.verses) {
+                        if (verse.text.includes(keywork))
+                          results.push(new SearchResultModel(chapter.book, chapter.number, verse));
+                      }
                     }
                   })
                 );

@@ -51,9 +51,12 @@
       </div>
 
       <ion-list no-lines>
-        <ion-item text-wrap [attr.id]="'c' + chapter.number + 'v' + verse.number" (click)="onVerseHold($event)" *ngFor="let verse of chapter.verses">
-          <p item-left>{{verse.number}}.</p>{{verse.text}} <ion-icon *ngIf="verse.number == 3" name="bookmark" style="color: #9BC53D"></ion-icon>
-        </ion-item>
+        <div *ngFor="let passage of chapter.passages">
+          <p *ngIf="passage.name != null">{{passage.name}}</p>
+          <ion-item text-wrap [attr.id]="'c' + chapter.number + 'v' + verse.number" (click)="onVerseHold($event)" *ngFor="let verse of passage.verses">
+            <p item-left>{{verse.number}}.</p>{{verse.text}} <ion-icon *ngIf="verse.number == 3" name="bookmark" style="color: #9BC53D"></ion-icon>
+          </ion-item>
+        </div>
       </ion-list>
 
       <div style="height: 100px"></div>

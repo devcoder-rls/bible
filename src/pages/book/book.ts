@@ -8,7 +8,6 @@ import { ChapterService } from '../../providers/chapter-service';
 import { SearchService } from '../../providers/search-service';
 
 import { ChapterModel }  from '../../models/chapter-model'
-import { SearchResultModel }  from '../../models/searchresult-model'
 
 import { BooksPage } from '../books/books';
 import { ChaptersPage } from '../chapters/chapters';
@@ -226,7 +225,7 @@ export class BookPage {
     let chapterIndex = number -1;
 
     if (number > 1 
-      && !this.chapters[chapterIndex-1].verses) {
+      && !this.chapters[chapterIndex-1].passages) {
       this.chapterService.get(this.book, number-1)
       .subscribe(
         chapter => { 
@@ -237,7 +236,7 @@ export class BookPage {
     }
 
     if (number < this.book.chapterAmount 
-      && !this.chapters[chapterIndex+1].verses) {
+      && !this.chapters[chapterIndex+1].passages) {
       this.chapterService.get(this.book, number+1)
       .subscribe(
         chapter => { 
@@ -252,7 +251,7 @@ export class BookPage {
       if (_i >= chapterIndex-1 && _i <= chapterIndex+1)
         continue;
 
-      this.chapters[_i].verses = null;
+      this.chapters[_i].passages = null;
     }
   }
 
