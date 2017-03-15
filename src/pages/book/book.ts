@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/core';
-import { NavController, NavParams, Content, Searchbar, Slides, AlertController, PopoverController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, Content, Searchbar, Slides, AlertController, PopoverController, ModalController, ToastController } from 'ionic-angular';
 import { SocialSharing, Keyboard, DeviceFeedback } from 'ionic-native';
 
 import { BookService } from '../../providers/book-service';
@@ -47,9 +47,9 @@ export class BookPage {
   stateActions: string = 'hide';
 
   showSearchBar: boolean = false;
-  searchResults: any;
+  searchResults: Array<any> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, public chapterService: ChapterService, public searchService: SearchService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController, public chapterService: ChapterService, public searchService: SearchService) {
     this.book = navParams.get('book');
 
     this.currentChapterNumber = navParams.get('chapterNumber');
@@ -108,12 +108,33 @@ export class BookPage {
   searchThis(event) {
     let value = event.target.value;
 
-    this.searchResults = this.searchService.searchall(value);
+    this.searchService.searchall(value)
+    .subscribe(
+      data => {
+        this.searchResults = data;
+      },
+      err => {
+        console.log(err);
+      },
+      () => {
+        let count = this.searchResults.length;
+
+        if (count > 20) {
+          let toast = this.toastCtrl.create({
+            message: 'Foram encontrados ' + count + ' versículos.',
+            duration: 5000,
+            position: 'bottom'
+          });
+
+          toast.present(); 
+        }
+      }
+    );
   }
 
   cancelSearch(event) {
     this.showSearchBar = false;
-    this.searchResults = null;
+    this.searchResults = [];
 
     this._unlockSlides();
   }

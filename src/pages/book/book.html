@@ -19,7 +19,7 @@
       placeholder="Pesquisar"
       autocomplete="on"
       animated="true"
-      debounce="600"
+      debounce="1000"
       showCancelButton="true"
       cancelButtonText="Cancelar"
       color="light"
@@ -30,7 +30,7 @@
 </ion-header>
 
 <ion-content [hidden]="!showSearchBar">
-  <ion-list inset [virtualScroll]="searchResults | async">
+  <ion-list inset [virtualScroll]="searchResults" [approxItemHeight]="'150px'">
 
     <ion-item text-wrap *virtualItem="let result">
       <!--<ion-icon item-left small name="search" style="color: #cccccc; font-weight: normal"></ion-icon>-->
