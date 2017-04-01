@@ -4,8 +4,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <button ion-item no-lines *ngFor="let book of books" (click)="openChapters($event, book)" >{{book.shortName}}</button>
+<ion-content padding>
+  <ion-list no-lines>
+    <button ion-item *ngFor="let book of books" (click)="openChapters($event, book)" >{{book.shortName}}</button>
   </ion-list>
 </ion-content>
