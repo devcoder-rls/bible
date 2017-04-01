@@ -1,5 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
 import { HomePage } from '../pages/home/home';
@@ -8,6 +9,7 @@ import { BookPage } from '../pages/book/book';
 import { ChaptersPage } from '../pages/chapters/chapters';
 import { InteractionPage } from '../pages/interaction/interaction';
 import { InteractionMorePage } from '../pages/interaction-more/interaction-more';
+import { BookmarkListsPage } from '../pages/bookmark-lists/bookmark-lists';
 import { BookmarksPage } from '../pages/bookmarks/bookmarks';
 import { PopOverPage } from '../pages/popover/popover';
 
@@ -23,12 +25,14 @@ import { Focuser } from '../components/focuser/focuser';
     ChaptersPage,
     InteractionPage,
     InteractionMorePage,
+    BookmarkListsPage,
     BookmarksPage,
     PopOverPage,
     Focuser
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -39,6 +43,7 @@ import { Focuser } from '../components/focuser/focuser';
     ChaptersPage,
     InteractionPage,
     InteractionMorePage,
+    BookmarkListsPage,
     BookmarksPage,
     PopOverPage
   ],

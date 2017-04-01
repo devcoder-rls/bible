@@ -17,7 +17,7 @@ export class BooksPage {
   books: BookModel[] = [];
 
   constructor(public navCtrl: NavController, public bookService: BookService) {
-    this.bookService.getall()
+    this.bookService.getAll()
     .subscribe(
       data => {
         this.books = data;

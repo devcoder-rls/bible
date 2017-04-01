@@ -10,7 +10,7 @@ export class BookService {
   constructor(public http: Http) {
   }
 
-  getall() {
+  getAll() {
     return this.http.get('data/books.json')
     .map(res => {
       let response = res.json();
@@ -24,4 +24,18 @@ export class BookService {
     });
   }
 
+  get(bookId: string) {
+    return this.http.get('data/books.json')
+    .map(res => {
+      let response = res.json();
+
+      for (var b of response.books) {
+        if ( b.id == bookId ) {
+          return new BookModel(b.id, b.name, b.shortName, b.chapterAmount);
+        }
+      }
+
+      return null;
+    });
+  }
 }

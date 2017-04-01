@@ -1,11 +1,13 @@
 import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/core';
-import { NavController, NavParams, Content, Searchbar, Slides, AlertController, PopoverController, ModalController, ToastController } from 'ionic-angular';
-import { SocialSharing, Keyboard, DeviceFeedback } from 'ionic-native';
+import { NavController, NavParams, Content, Searchbar, Slides, AlertController, PopoverController, ModalController } from 'ionic-angular';
+import { SocialSharing, Keyboard, DeviceFeedback, Toast } from 'ionic-native';
 
 import { BookService } from '../../providers/book-service';
 import { ChapterService } from '../../providers/chapter-service';
 import { SearchService } from '../../providers/search-service';
+import { BookmarkService } from '../../providers/bookmark-service';
+import { VersesSelectedService } from '../../providers/verses-selected-service';
 
 import { ChapterModel }  from '../../models/chapter-model'
 
@@ -17,7 +19,7 @@ import { PopOverPage } from '../popover/popover';
 @Component({
   selector: 'page-book',
   templateUrl: 'book.html',
-  providers: [BookService, ChapterService, SearchService],
+  providers: [BookService, ChapterService, SearchService, BookmarkService],
   animations: [
     trigger('showactions', [
       state('show', style({bottom: '*'})),
@@ -41,7 +43,7 @@ export class BookPage {
 
   initialSlide = 0;
 
-  selectedVerses: HTMLElement[] = [];
+  selectedVerses: VersesSelectedService;
 
   showActions: boolean = false;
   stateActions: string = 'hide';
@@ -49,10 +51,12 @@ export class BookPage {
   showSearchBar: boolean = false;
   searchResults: Array<any> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, public toastCtrl: ToastController, public chapterService: ChapterService, public searchService: SearchService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService) {
     this.book = navParams.get('book');
 
     this.currentChapterNumber = navParams.get('chapterNumber');
+
+    this.selectedVerses = new VersesSelectedService();
 
     this.initialSlide = this.currentChapterNumber -1;
     console.log('constructor:initialSlide', this.initialSlide);
@@ -120,13 +124,8 @@ export class BookPage {
         let count = this.searchResults.length;
 
         if (count > 20) {
-          let toast = this.toastCtrl.create({
-            message: 'Foram encontrados ' + count + ' versículos.',
-            duration: 5000,
-            position: 'bottom'
-          });
-
-          toast.present(); 
+          Toast.show('Foram encontrados ' + count + ' versículos.', '5000', 'center')
+          .subscribe(toast => {});
         }
       }
     );
@@ -158,7 +157,7 @@ export class BookPage {
     }
   }
 
-  onVerseHold(event) {
+  onVerseHold(verse, event) {
     DeviceFeedback.haptic(0);
 
     let target: any = event.target;
@@ -166,16 +165,14 @@ export class BookPage {
     while(target.tagName != 'ION-ITEM')
         target = target.parentElement;
 
-    let index: number = this.selectedVerses.indexOf(target);
-
-    if (index > -1) {
-        this._clearVerseSelection(index, target);
+    if (this.selectedVerses.contains(verse)) {
+        this._clearVerseSelection(verse);
     } else {
-        target.style.backgroundColor = '#EEE';
-        this.selectedVerses.push(target);
+        target.classList.add("item-selected");
+        this.selectedVerses.addVerse(verse, target);
     }
 
-    this.showActions = this.selectedVerses.length > 0;
+    this.showActions = this.selectedVerses.length() > 0;
     this.stateActions = this.showActions ? 'show' : 'hide';
 
     if (this.showActions)
@@ -185,42 +182,34 @@ export class BookPage {
   }
 
   addToBookmark() {
-    let prompt = this.alertCtrl.create({
-      title: 'Lista de leitura',
-      inputs: [
-        {
-          type: 'radio',
-          label: 'Ler mais tarde',
-          value: '1'
-        },
-        {
-          type: 'radio',
-          label: 'Interessante',
-          value: '2'
-        },
-        {
-          type: 'radio',
-          label: 'Favorito',
-          value: '3'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Ok',
-          handler: data => {
-            console.log('Saved clicked', data);
+    this.bookmarkService.getLists().then(lists =>
+    {
+      let inputs = lists.map((list) => {
+        return { type: 'radio', label: list.name, value: list.id };
+      });
+
+      let prompt = this.alertCtrl.create({
+        title: 'Lista de leitura',
+        inputs: inputs,
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          },
+          {
+            text: 'Ok',
+            handler: listId => {
+              this.bookmarkService.addBookmark(
+                listId, this.chapters[this.currentChapterNumber-1], this.selectedVerses.getVerses());
+
+              this._clearAllVerseSelection();
+            }
           }
-        }
-      ]
+        ]
+      });
+
+      prompt.present();
     });
-
-    prompt.present();
-
-    this._clearAllVerseSelection();
   }
 
   openInteractivity() {
@@ -285,8 +274,8 @@ export class BookPage {
   }
 
   _clearAllVerseSelection() {
-    while (this.selectedVerses.length > 0)
-      this._clearVerseSelection(0, this.selectedVerses[0]);
+    for (let verse of this.selectedVerses.getVerses())
+      this._clearVerseSelection(verse);
 
     this.showActions = false;
     this.stateActions = 'hide';
@@ -294,8 +283,10 @@ export class BookPage {
     this._unlockSlides();
   }
 
-  _clearVerseSelection(index, verseElement) {
-    verseElement.style.backgroundColor = '';
-    this.selectedVerses.splice(index, 1);
+  _clearVerseSelection(verse) {
+    let verseElement: HTMLElement = this.selectedVerses.get(verse);
+    verseElement.classList.remove("item-selected")
+
+    this.selectedVerses.removeVerse(verse);
   }
 }

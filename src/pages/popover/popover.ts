@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
+import { App, ViewController } from 'ionic-angular';
 import { DeviceFeedback } from 'ionic-native';
-import { BookmarksPage } from '../bookmarks/bookmarks';
+import { BookmarkListsPage } from '../bookmark-lists/bookmark-lists';
 
 @Component({
   selector: 'page-popover',
@@ -9,13 +9,13 @@ import { BookmarksPage } from '../bookmarks/bookmarks';
 })
 export class PopOverPage {
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController) {
+  constructor(public appCtrl: App, public viewCtrl: ViewController) {
   }
 
   openBookmarks() {
     DeviceFeedback.acoustic();
 
-    this.navCtrl.push(BookmarksPage);
+    this.appCtrl.getRootNav().push(BookmarkListsPage);
     this.viewCtrl.dismiss();
   }
 

@@ -29,7 +29,7 @@ export class SearchService {
 
     return Observable.create(observer => {
 
-      self.bookService.getall()
+      self.bookService.getAll()
       .subscribe(
         books => {
 
