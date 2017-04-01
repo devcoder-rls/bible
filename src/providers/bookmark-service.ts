@@ -66,7 +66,7 @@ export class BookmarkService {
         let bookmarks: Array<BookmarkModel> = [];
 
         if (data != null) {
-          for (var bookmark of JSON.parse(data))            
+          for (var bookmark of JSON.parse(data))
             bookmarks.push(new BookmarkModel(bookmark.id, bookmark.bookId, bookmark.bookShortName, bookmark.chapterNumber, bookmark.versesNumber, bookmark.shortText));
         }
 
@@ -85,6 +85,8 @@ export class BookmarkService {
         bookmarks.push(new BookmarkModel(Guid.newGuid(), chapter.book.id, chapter.book.shortName, chapter.number, versesNumber, verses[0].text));
 
         this.storage.set(this.BOOKMARKS_KEY + listId, JSON.stringify(bookmarks));
+
+        this._changeBookmarkCount(listId, +1);
       });
   }
 
@@ -95,6 +97,23 @@ export class BookmarkService {
         bookmarks = bookmarks.filter(b => b.id != bookmark.id);
 
         this.storage.set(this.BOOKMARKS_KEY + listId, JSON.stringify(bookmarks));
+
+        this._changeBookmarkCount(listId, -1);
+      });
+  }
+
+  _changeBookmarkCount(listId: string, value: number) {
+    this.getLists()
+      .then(lists => {
+        
+        for(let list of lists) {
+          if (list.id == listId) {
+            list.bookmarkCount += value;
+            break;
+          }
+        }
+
+        this.storage.set(this.BOOKMARK_LISTS_KEY, JSON.stringify(lists));
       });
   }
 

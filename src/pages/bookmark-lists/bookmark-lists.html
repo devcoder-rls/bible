@@ -18,7 +18,8 @@
       <ion-icon name="bookmark" item-left [style.color]="bookmarkList.color"></ion-icon>
       <h2>{{bookmarkList.name}}</h2>
       <p *ngIf="bookmarkList.bookmarkCount == 0">Nenhuma marcação</p>
-      <p *ngIf="bookmarkList.bookmarkCount > 0">{{bookmarkList.bookmarkCount}} marcações</p>
+      <p *ngIf="bookmarkList.bookmarkCount == 1">{{bookmarkList.bookmarkCount}} marcação</p>
+      <p *ngIf="bookmarkList.bookmarkCount > 1">{{bookmarkList.bookmarkCount}} marcações</p>
     </ion-item>
   </ion-list>
 
