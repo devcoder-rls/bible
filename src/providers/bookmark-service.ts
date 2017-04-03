@@ -18,8 +18,42 @@ export class BookmarkService {
 
   // To know pallet color see https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
 
-  private BOOKMARK_LISTS_KEY: string = 'bookmarkLists';
+  // Hold the ...
+  //
+  // Sample:
+  // [
+  //   { "id": "#264653", "name": "Ler mais tarde", "bookmarkCount": 2 },
+  //   { "id": "#2A9D8F", "name": "Favorito", "bookmarkCount": 1 },
+  //   { "id": "#E9C46A", "name": "Interessante", "bookmarkCount": 0 }
+  // ]
+  private BOOKMARK_LISTS_KEY: string = 'bookmark-lists';
+
+  // Hold the ..
+  //
+  // Sample:
+  // [
+  //   { "id": "6d850a61-ab38-483a-9c24-87b3b68f0115", "bookId": "genesis", "bookShortName": "Gênesis", "chapterNumber": 1, "versesNumber": [1], "shortText": "No princípio, criou Deus os céus e a terra." },
+  //   { "id": "5f34c9d2-81ce-4e9f-8434-8a073d23d812", "bookId": "genesis", "bookShortName": "Gênesis", "chapterNumber": 1, "versesNumber": [5], "shortText": "Chamou Deus à luz Dia e às trevas, Noite. Houve tarde e manhã, o primeiro dia." }
+  // ]
   private BOOKMARKS_KEY: string = 'bookmarks-';
+
+  // Hold the ...
+  //
+  // Sample:
+  // {
+  //  "genesis": {
+  //    3: {
+  //      1: ["#AAAAAA", "#BBBBBB"]
+  //    }
+  //  }, 
+  //  "joao": {
+  //    13: {
+  //      4: ["#CCCCCC"],
+  //      34: ["#DDDDDD"]
+  //    }
+  //  }
+  // }
+  private BOOKMARKS_INDEX_KEY: string = 'bookmarks-index';
 
   constructor(private storage: Storage) {
   }
@@ -32,32 +66,11 @@ export class BookmarkService {
         data = (data != null) ? JSON.parse(data) : this._getDefaultLists();
 
         for (var bookmarkList of data)
-          lists.push(new BookmarkListModel(bookmarkList.id, bookmarkList.name, bookmarkList.color, bookmarkList.bookmarkCount));
+          lists.push(new BookmarkListModel(bookmarkList.id, bookmarkList.name, bookmarkList.bookmarkCount));
 
         return lists;
       }
     );
-  }
-
-  addList(name: string) {
-    return this.getLists()
-      .then(lists => {
-
-        let color = "#000000"; // TODO: Define a color
-        lists.push(new BookmarkListModel(Guid.newGuid(), name, color, 0));
-
-        this.storage.set(this.BOOKMARK_LISTS_KEY, JSON.stringify(lists));
-      });
-  }
-
-  removeList(list: BookmarkListModel) {
-    return this.getLists()
-      .then(lists => {
-
-        lists = lists.filter(l => l.id != list.id);
-
-        this.storage.set(this.BOOKMARK_LISTS_KEY, JSON.stringify(lists));
-      });
   }
 
   getBookmarks(listId: string) {
@@ -87,6 +100,8 @@ export class BookmarkService {
         this.storage.set(this.BOOKMARKS_KEY + listId, JSON.stringify(bookmarks));
 
         this._changeBookmarkCount(listId, +1);
+
+        this._addIndex(chapter.book.id, chapter.number, versesNumber, listId);
       });
   }
 
@@ -99,6 +114,23 @@ export class BookmarkService {
         this.storage.set(this.BOOKMARKS_KEY + listId, JSON.stringify(bookmarks));
 
         this._changeBookmarkCount(listId, -1);
+
+        this._removeIndex(bookmark.bookId, bookmark.chapterNumber, bookmark.versesNumber, listId);
+      });
+  }
+
+  getIndex(bookId: string, chapterNumber: number) {
+    return this.storage.get(this.BOOKMARKS_INDEX_KEY)
+      .then(data => {
+        if (data == null)
+          return null;
+
+        let json = JSON.parse(data);
+
+        if (json[bookId] == null)
+          return null;
+
+        return json[bookId][chapterNumber];
       });
   }
 
@@ -117,13 +149,67 @@ export class BookmarkService {
       });
   }
 
+  _addIndex(bookId: string, chapterNumber: number, versesNumber: number[], listId: string) {
+    return this.storage.get(this.BOOKMARKS_INDEX_KEY)
+      .then(data => {
+        let json = data != null ? JSON.parse(data) : {};
+
+        if (json[bookId] == null)
+          json[bookId] = {};
+
+        if (json[bookId][chapterNumber] == null)
+          json[bookId][chapterNumber] = {};
+
+        for (let verseNumber of versesNumber) {
+          if (json[bookId][chapterNumber][verseNumber] == null)
+            json[bookId][chapterNumber][verseNumber] = [];
+
+          json[bookId][chapterNumber][verseNumber].push(listId);
+        }
+
+        this.storage.set(this.BOOKMARKS_INDEX_KEY, JSON.stringify(json));
+      });
+  }
+
+  _removeIndex(bookId: string, chapterNumber: number, versesNumber: number[], listId: string) {
+    return this.storage.get(this.BOOKMARKS_INDEX_KEY)
+      .then(data => {
+        if (data == null)
+          return;
+
+        let json = JSON.parse(data);
+
+        for (let verseNumber of versesNumber) {
+          var index = json[bookId][chapterNumber][verseNumber].indexOf(listId, 0);
+
+          if (index > -1)
+            json[bookId][chapterNumber][verseNumber].splice(index, 1);
+
+          if (json[bookId][chapterNumber][verseNumber].length == 0)
+            delete json[bookId][chapterNumber][verseNumber];
+        }
+
+        // If has no verses in chapter map, remove it
+        if (Object.keys(json[bookId][chapterNumber]).length === 0 
+          && json[bookId][chapterNumber].constructor === Object)
+          delete json[bookId][chapterNumber];
+
+        // If has no chapters in book map, remove it
+        if (Object.keys(json[bookId]).length === 0 
+          && json[bookId].constructor === Object)
+          delete json[bookId];
+
+        this.storage.set(this.BOOKMARKS_INDEX_KEY, JSON.stringify(json));
+      });
+  }
+
   _getDefaultLists() {
     // next color #E76F51
     return [
-      {"id": "K3hfdhjf94h49fj", "name": "Ler mais tarde", "color": "#264653", "bookmarkCount": 0},
-      {"id": "Ngj49fhfdnSDh3s", "name": "Favorito", "color": "#2A9D8F", "bookmarkCount": 0},
-      {"id": "Lej39fh49rhxs0D", "name": "Interessante", "color": "#E9C46A", "bookmarkCount": 0},
-      {"id": "dh39fhf9HaPs9Sh", "name": "Inspirador", "color": "#F4A261", "bookmarkCount": 0}
+      {"id": "#264653", "name": "Ler mais tarde", "bookmarkCount": 0},
+      {"id": "#2A9D8F", "name": "Favorito", "bookmarkCount": 0},
+      {"id": "#E9C46A", "name": "Interessante", "bookmarkCount": 0},
+      {"id": "#F4A261", "name": "Inspirador", "bookmarkCount": 0}
     ];
   }
 }

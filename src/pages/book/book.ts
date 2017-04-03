@@ -65,15 +65,9 @@ export class BookPage {
     for (var _i = 0; _i < this.book.chapterAmount; _i++)
       this.chapters[_i] = new ChapterModel(null, _i+1, null);
 
-    this.chapterService.get(this.book, navParams.get('chapterNumber'))
-    .subscribe(
-      chapter => { 
-        this.currentChapterNumber = chapter.number;
-        this.chapters[chapter.number-1] = chapter;
-      },
-      err => console.log(err));
+    this._loadCurrentChapter(navParams.get('chapterNumber'));
 
-      this._loadNearChapters(navParams.get('chapterNumber'));
+    this._loadNearChapters(navParams.get('chapterNumber'));
   }
 
   ionViewDidEnter() {
@@ -200,9 +194,15 @@ export class BookPage {
             text: 'Ok',
             handler: listId => {
               this.bookmarkService.addBookmark(
-                listId, this.chapters[this.currentChapterNumber-1], this.selectedVerses.getVerses());
+                listId, this.chapters[this.currentChapterNumber-1], this.selectedVerses.getVerses())
+              .then(() => {
+                this._clearAllVerseSelection();
 
-              this._clearAllVerseSelection();
+                let self = this;
+                setTimeout(function(){
+                  self._loadCurrentChapter(self.currentChapterNumber);
+                }, 500);
+              });              
             }
           }
         ]
@@ -231,12 +231,24 @@ export class BookPage {
     this._clearAllVerseSelection();
   }
 
-  _loadNearChapters(number) {
-    let chapterIndex = number -1;
+  _loadCurrentChapter(chapterNumber: number) {
+    console.log('_loadCurrentChapter', chapterNumber);
 
-    if (number > 1 
+    this.chapterService.get(this.book, chapterNumber)
+    .subscribe(
+      chapter => { 
+        this.currentChapterNumber = chapter.number;
+        this.chapters[chapter.number-1] = chapter;
+      },
+      err => console.log(err));
+  }
+
+  _loadNearChapters(chapterNumber: number) {
+    let chapterIndex = chapterNumber -1;
+
+    if (chapterNumber > 1 
       && !this.chapters[chapterIndex-1].passages) {
-      this.chapterService.get(this.book, number-1)
+      this.chapterService.get(this.book, chapterNumber-1)
       .subscribe(
         chapter => { 
           console.log("Loaded prev chapter ", chapter.number);
@@ -245,9 +257,9 @@ export class BookPage {
         err => console.log(err));
     }
 
-    if (number < this.book.chapterAmount 
+    if (chapterNumber < this.book.chapterAmount 
       && !this.chapters[chapterIndex+1].passages) {
-      this.chapterService.get(this.book, number+1)
+      this.chapterService.get(this.book, chapterNumber+1)
       .subscribe(
         chapter => { 
           console.log("Loaded next chapter ", chapter.number);

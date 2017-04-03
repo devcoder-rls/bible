@@ -1,21 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Listas de leitura</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only>
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
 
-  
-
   <ion-list>
     <ion-item *ngFor="let bookmarkList of bookmarkLits | async" (click)="openBookmarks(bookmarkList)">
-      <ion-icon name="bookmark" item-left [style.color]="bookmarkList.color"></ion-icon>
+      <ion-icon name="bookmark" item-left [style.color]="bookmarkList.id"></ion-icon>
       <h2>{{bookmarkList.name}}</h2>
       <p *ngIf="bookmarkList.bookmarkCount == 0">Nenhuma marcação</p>
       <p *ngIf="bookmarkList.bookmarkCount == 1">{{bookmarkList.bookmarkCount}} marcação</p>

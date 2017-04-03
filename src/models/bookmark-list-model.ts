@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class BookmarkListModel {
 
-  constructor(public id: string, public name: string, public color: string, public bookmarkCount: number) {
+  constructor(public id: string, public name: string, public bookmarkCount: number) {
   }
 
 }

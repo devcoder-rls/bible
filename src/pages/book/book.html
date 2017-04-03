@@ -54,7 +54,9 @@
         <div *ngFor="let passage of chapter.passages">
           <p padding *ngIf="passage.name != null">{{passage.name}}</p>
           <ion-item text-wrap (click)="onVerseHold(verse, $event)" *ngFor="let verse of passage.verses">
-            <p item-left>{{verse.number}}.</p>{{verse.text}} <ion-icon *ngIf="verse.number == 3" name="bookmark" style="color: #9BC53D"></ion-icon>
+            <p item-left>{{verse.number}}.</p>
+            {{verse.text}} 
+            <ion-icon *ngFor="let bookmarkColor of verse.bookmarks" name="bookmark" [style.color]='bookmarkColor' style="margin-right: 5px"></ion-icon>
           </ion-item>
         </div>
       </ion-list>
