@@ -17,9 +17,6 @@ import { BookmarksPage } from '../pages/bookmarks/bookmarks';
 import { SettingsPage } from '../pages/settings/settings';
 import { PopOverPage } from '../pages/popover/popover';
 
-// Directives
-import { Focuser } from '../components/focuser/focuser';
-
 @NgModule({
   declarations: [
     MyApp,
@@ -31,9 +28,8 @@ import { Focuser } from '../components/focuser/focuser';
     InteractionMorePage,
     BookmarkListsPage,
     BookmarksPage,
-    PopOverPage,
-    Focuser
     SettingsPage,
+    PopOverPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
