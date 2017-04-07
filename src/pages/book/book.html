@@ -51,12 +51,14 @@
       </div>
 
       <ion-list no-lines>
-        <div *ngFor="let passage of chapter.passages">
-          <p padding *ngIf="passage.name != null">{{passage.name}}</p>
-          <ion-item text-wrap (click)="onVerseHold(verse, $event)" *ngFor="let verse of passage.verses">
+        <div class="textsize-{{settings.textsize}}" *ngFor="let passage of chapter.passages">
+          <p padding class="passage" *ngIf="settings.showPassageTitle && passage.name != null">{{passage.name}}</p>
+          <ion-item text-wrap *ngFor="let verse of passage.verses" (click)="onVerseHold(verse, $event)">
             <p item-left>{{verse.number}}.</p>
             {{verse.text}} 
-            <ion-icon *ngFor="let bookmarkColor of verse.bookmarks" name="bookmark" [style.color]='bookmarkColor' style="margin-right: 5px"></ion-icon>
+            <span *ngIf="settings.showBookmarks">
+              <ion-icon *ngFor="let bookmarkColor of verse.bookmarks" name="bookmark" [style.color]='bookmarkColor' style="margin-right: 5px"></ion-icon>
+            </span>
           </ion-item>
         </div>
       </ion-list>

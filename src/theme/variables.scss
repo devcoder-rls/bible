@@ -2,6 +2,35 @@
 // http://ionicframework.com/docs/v2/theming/
 @import "ionic.globals";
 
+$custom-font-path: "../assets/fonts" !default;
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 300;
+  src: local("RobotoSlab Light webfont"), local("Roboto-Slab-Light"), url("#{$custom-font-path}/roboto-slab-light-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-light-webfont.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 400;
+  src: local("RobotoSlab Regular webfont"), local("Roboto-Slab-Regular"), url("#{$custom-font-path}/roboto-slab-regular-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-regular-webfont.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 500;
+  src: local("RobotoSlab Regular webfont"), local("Roboto-Slab-Regular"), url("#{$custom-font-path}/roboto-slab-regular-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-regular-webfont.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 700;
+  src: local("RobotoSlab Bold webfont"), local("Roboto-Slab-Bold"), url("#{$custom-font-path}/roboto-slab-bold-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-bold-webfont.ttf") format("truetype");
+}
 
 // Shared Variables
 // --------------------------------------------------
@@ -9,8 +38,6 @@
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
-
-
 
 
 // Named Color Variables

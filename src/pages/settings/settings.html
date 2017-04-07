@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Configurações</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-range [(ngModel)]="settings.textsize" min="10" max="20" pin="true">
+        <ion-label range-left>Tamanho <span class="small-text">A</span></ion-label>
+        <ion-label range-right class="big-text">A</ion-label>
+      </ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>
+        Mostrar passagens
+        <p>O título da passagem será apresentado durante a leitura</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="settings.showPassageTitle"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>
+        Mostrar marcações
+        <p>Um ícone será apresentado ao lado dos versículos que foram marcados</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="settings.showBookmarks"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>
+        Manter tela ligada durante a exibição
+        <p>A tela do aplicativo não irá desligar enquanto estiver lendo a Bíblia</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="settings.keepScreenOn"></ion-toggle>
+    </ion-item>
+  </ion-list>
+</ion-content>

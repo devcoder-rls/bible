@@ -1,40 +1,5 @@
 page-book {
 
-  .slide-zoom{
-    height:100%;
-    overflow-y: auto;
-  }
-
-  .swiper-slide {
-    align-items: flex-start;
-  }
-
-  .item-block {
-    align-items: flex-start;
-  }  
-
-  .item [item-left], .item [item-right] {
-    font-weight: bold;
-    color: color($colors, primary, base);
-  }
-
-  .item-md [item-left], .item-md [item-right] {
-    margin-top: 8px;
-  }
-
-  .item-ios [item-left], .item-ios [item-right] {
-    margin-top: 13px;
-  }
-
-  .item-selected {
-    background-color: #EEE; 
-  }
-
-  .item .label-md {
-    margin-top: 6px;
-    margin-bottom: 6px;
-  }
-
   .toolbar-title {
     display: flex;
   }
@@ -49,6 +14,7 @@ page-book {
 
   .chapter-header {
     margin-top: 30px;
+    font-family: "Roboto Slab";
 
     h2 {
       text-align: center; 
@@ -57,9 +23,118 @@ page-book {
 
     h3 {
       text-align: center; 
-      font-size: 18px; 
+      font-size: 2.4rem; 
       font-weight: bold;
     }
+  }
+
+  .swiper-slide {
+    align-items: flex-start;
+
+    .slide-zoom {
+      height:100%;
+      overflow-y: auto;
+      padding-left: 15px;
+      padding-right: 20px;
+    }
+  }
+
+  .item-block {
+    align-items: flex-start;
+  }
+
+  .item [item-left], .item [item-right] {
+    font-weight: bold;
+    color: color($colors, primary, base);
+  }
+
+  .item-md [item-left], .item-md [item-right] {
+    margin-top: 7px;
+  }
+
+  .item, .item .label, .item p {
+    font-family: "Roboto Slab";
+    font-weight: 300;
+  }
+
+  .passage {
+    font-family: "Roboto Slab";
+    padding: 0px !important;
+  }
+
+  .textsize-10 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 10pt;
+    }
+  }
+
+  .textsize-11 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 11pt;
+    }
+  }
+
+  .textsize-12 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 12pt;
+    }
+  }
+
+  .textsize-13 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 13pt;
+    }
+  }
+
+  .textsize-14 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 14pt;
+    }
+  }
+
+  .textsize-15 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 15pt;
+    }
+  }
+
+  .textsize-16 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 16pt;
+    }
+  }
+
+  .textsize-17 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 17pt;
+    }
+  }
+
+  .textsize-18 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 18pt;
+    }
+  }
+
+  .textsize-19 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 19pt;
+    }
+  }
+
+  .textsize-20 {
+    .passage, .item, .item .label, .item [item-left] {
+      font-size: 20pt;
+    }
+  }
+
+  .item-selected {
+    background-color: #EEE; 
+  }
+
+  .item .label {
+    margin-top: 6px;
+    margin-bottom: 6px;
   }
 
   ion-fab {

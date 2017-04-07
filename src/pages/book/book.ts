@@ -8,8 +8,10 @@ import { ChapterService } from '../../providers/chapter-service';
 import { SearchService } from '../../providers/search-service';
 import { BookmarkService } from '../../providers/bookmark-service';
 import { VersesSelectedService } from '../../providers/verses-selected-service';
+import { SettingsService } from '../../providers/settings-service';
 
 import { ChapterModel }  from '../../models/chapter-model'
+import { SettingsModel }  from '../../models/settings-model'
 
 import { BooksPage } from '../books/books';
 import { ChaptersPage } from '../chapters/chapters';
@@ -38,6 +40,8 @@ export class BookPage {
 
   book: any;
 
+  settings: SettingsModel;
+
   chapters: ChapterModel[] = [];
   currentChapterNumber: number;
 
@@ -51,11 +55,12 @@ export class BookPage {
   showSearchBar: boolean = false;
   searchResults: Array<any> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService, public settingsService: SettingsService) {
     this.book = navParams.get('book');
 
     this.currentChapterNumber = navParams.get('chapterNumber');
 
+    this.settings = new SettingsModel();
     this.selectedVerses = new VersesSelectedService();
 
     this.initialSlide = this.currentChapterNumber -1;
@@ -70,7 +75,12 @@ export class BookPage {
     this._loadNearChapters(navParams.get('chapterNumber'));
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
+    this.settingsService.getSettings()
+      .then(settings => {
+        this.settings = settings;
+      });
+
     this.onChapterChanged();
   }
 

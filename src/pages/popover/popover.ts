@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { App, ViewController } from 'ionic-angular';
 import { DeviceFeedback } from 'ionic-native';
 import { BookmarkListsPage } from '../bookmark-lists/bookmark-lists';
+import { SettingsPage } from '../settings/settings';
 
 @Component({
   selector: 'page-popover',
@@ -22,6 +23,7 @@ export class PopOverPage {
   openSettings() {
     DeviceFeedback.acoustic();
 
+    this.appCtrl.getRootNav().push(SettingsPage);
     this.viewCtrl.dismiss();
   }
 }

@@ -3,6 +3,9 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
+import { SettingsService } from '../providers/settings-service';
+import { Insomnia } from '@ionic-native/insomnia';
+
 import { HomePage } from '../pages/home/home';
 import { BooksPage } from '../pages/books/books';
 import { BookPage } from '../pages/book/book';
@@ -11,6 +14,7 @@ import { InteractionPage } from '../pages/interaction/interaction';
 import { InteractionMorePage } from '../pages/interaction-more/interaction-more';
 import { BookmarkListsPage } from '../pages/bookmark-lists/bookmark-lists';
 import { BookmarksPage } from '../pages/bookmarks/bookmarks';
+import { SettingsPage } from '../pages/settings/settings';
 import { PopOverPage } from '../pages/popover/popover';
 
 // Directives
@@ -29,6 +33,7 @@ import { Focuser } from '../components/focuser/focuser';
     BookmarksPage,
     PopOverPage,
     Focuser
+    SettingsPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -45,8 +50,9 @@ import { Focuser } from '../components/focuser/focuser';
     InteractionMorePage,
     BookmarkListsPage,
     BookmarksPage,
+    SettingsPage,
     PopOverPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, SettingsService, Insomnia]
 })
 export class AppModule {}
