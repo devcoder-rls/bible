@@ -17,7 +17,7 @@ export class BookmarkListsPage {
 
   constructor(public navCtrl: NavController, public bookmarkService: BookmarkService) {}
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.bookmarkLits = this.bookmarkService.getLists();
   }
 
