@@ -230,15 +230,27 @@ export class BookPage {
   }
 
   share() {
+    if (this.selectedVerses.length() == 0)
+      return;
+
+    let message = this.book.name + " " + this.currentChapterNumber + "\n\n";
+
+    message += this.selectedVerses.getVerses()
+      .map(function(verse) { return "(" + verse.number + ") " + verse.text; })
+      .join('\n');
+
+    message += '\n\n';
+
     let options = {
-      message: 'share this', // not supported on some apps (Facebook, Instagram)
-      url: 'https://www.website.com/foo/#bar?a=b',
-      chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
+      message: message,
+      url: 'Para ler esse e outros livros da Bíblia Sagrada, baixe o aplicativo grátis <URL da loja>',
+      chooserTitle: 'Escolha um aplicativo'
     };
 
-    SocialSharing.shareWithOptions(options);
-
-    this._clearAllVerseSelection();
+    SocialSharing.shareWithOptions(options)
+      .then((result) => {
+        this._clearAllVerseSelection();          
+      });
   }
 
   _loadCurrentChapter(chapterNumber: number) {
