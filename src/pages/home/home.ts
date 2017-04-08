@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { BookModel }  from '../../models/book-model'
-
 import { BookPage } from '../book/book';
 
 @Component({

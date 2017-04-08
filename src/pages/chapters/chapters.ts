@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { DeviceFeedback } from 'ionic-native';
+import { DeviceFeedback } from '@ionic-native/device-feedback';
 
 import { BookModel }  from '../../models/book-model'
 
@@ -15,14 +15,14 @@ export class ChaptersPage {
   book: BookModel;
   chaptersNumber: number[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private deviceFeedback: DeviceFeedback) {
     this.book = navParams.get('book');
 
     this.chaptersNumber = Array(this.book.chapterAmount).fill(0).map((x, i) => i+1);
   }
 
   openBook(event, chapterNumber) {
-    DeviceFeedback.acoustic();
+    this.deviceFeedback.acoustic();
     
     this.navCtrl.setRoot(BookPage, {
       book: this.book,

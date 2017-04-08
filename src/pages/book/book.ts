@@ -1,7 +1,9 @@
 import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { NavController, NavParams, Content, Searchbar, Slides, AlertController, PopoverController, ModalController } from 'ionic-angular';
-import { SocialSharing, Keyboard, DeviceFeedback, Toast } from 'ionic-native';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { Toast } from '@ionic-native/toast';
+import { DeviceFeedback } from '@ionic-native/device-feedback';
 
 import { BookService } from '../../providers/book-service';
 import { ChapterService } from '../../providers/chapter-service';
@@ -55,7 +57,7 @@ export class BookPage {
   showSearchBar: boolean = false;
   searchResults: Array<any> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService, public settingsService: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, private toast: Toast, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService, public settingsService: SettingsService) {
     this.book = navParams.get('book');
 
     this.currentChapterNumber = navParams.get('chapterNumber');
@@ -85,7 +87,7 @@ export class BookPage {
   }
 
   openBooks() {
-    DeviceFeedback.acoustic();
+    this.deviceFeedback.acoustic();
 
     this.navCtrl.push(BooksPage);
 
@@ -93,7 +95,7 @@ export class BookPage {
   }
 
   openChapters() {
-    DeviceFeedback.acoustic();
+    this.deviceFeedback.acoustic();
 
     this.navCtrl.push(ChaptersPage, {
       book: this.book
@@ -109,7 +111,6 @@ export class BookPage {
 
     setTimeout(() => {
       this.searchbar.setFocus();
-      Keyboard.show();
     }, 150);
   }
 
@@ -128,8 +129,8 @@ export class BookPage {
         let count = this.searchResults.length;
 
         if (count > 20) {
-          Toast.show('Foram encontrados ' + count + ' versículos.', '5000', 'center')
-          .subscribe(toast => {});
+          this.toast.showLongCenter('Foram encontrados ' + count + ' versículos.')
+            .subscribe(() => {});
         }
       }
     );
@@ -143,7 +144,7 @@ export class BookPage {
   }
 
   presentPopover(event) {
-    DeviceFeedback.acoustic();
+    this.deviceFeedback.acoustic();
 
     let popover = this.popoverCtrl.create(PopOverPage);
     popover.present({ev: event});
@@ -162,7 +163,7 @@ export class BookPage {
   }
 
   onVerseHold(verse, event) {
-    DeviceFeedback.haptic(0);
+    this.deviceFeedback.haptic(0);
 
     let target: any = event.target;
 
@@ -247,7 +248,7 @@ export class BookPage {
       chooserTitle: 'Escolha um aplicativo'
     };
 
-    SocialSharing.shareWithOptions(options)
+    this.socialSharing.shareWithOptions(options)
       .then((result) => {
         this._clearAllVerseSelection();          
       });

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController } from 'ionic-angular';
-import { InAppBrowser, DeviceFeedback } from 'ionic-native';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { DeviceFeedback } from '@ionic-native/device-feedback';
 
 @Component({
   selector: 'page-interaction-more',
@@ -10,13 +11,13 @@ export class InteractionMorePage {
 
   category: string = "explanation";
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public inappbrowser: InAppBrowser, private deviceFeedback: DeviceFeedback) {
   }
 
   openUrl(url) {
-    DeviceFeedback.haptic(0);
+    this.deviceFeedback.haptic(0);
 
-    new InAppBrowser(url, '_system');
+    this.inappbrowser.create(url, '_system');
   }
 
   dismiss() {

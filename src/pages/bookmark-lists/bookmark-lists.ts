@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { DeviceFeedback } from 'ionic-native';
+import { DeviceFeedback } from '@ionic-native/device-feedback';
 
 import { BookmarkService } from '../../providers/bookmark-service';
 
@@ -15,14 +15,14 @@ export class BookmarkListsPage {
 
   bookmarkLits: any;
 
-  constructor(public navCtrl: NavController, public bookmarkService: BookmarkService) {}
+  constructor(public navCtrl: NavController, private deviceFeedback: DeviceFeedback, public bookmarkService: BookmarkService) {}
 
   ionViewWillEnter() {
     this.bookmarkLits = this.bookmarkService.getLists();
   }
 
   openBookmarks(bookmarkList) {
-    DeviceFeedback.acoustic();
+    this.deviceFeedback.acoustic();
 
     this.navCtrl.push(BookmarksPage, {
       bookmarkList: bookmarkList
