@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { NavController, NavParams, Content, Searchbar, Slides, AlertController, PopoverController, ModalController } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -38,7 +38,6 @@ export class BookPage {
   @ViewChild(Content) content: Content;
   @ViewChild('searchbar') searchbar: Searchbar;
   @ViewChild('chapterSlider') slider: Slides;
-  @ViewChildren('chapterSlide') slides: QueryList<ElementRef>;
 
   book: any;
 
@@ -47,7 +46,9 @@ export class BookPage {
   chapters: ChapterModel[] = [];
   currentChapterNumber: number;
 
-  initialSlide = 0;
+  initialVerserNumberVisible: number;
+
+  initialSlide = 0; 
 
   selectedVerses: VersesSelectedService;
 
@@ -55,26 +56,30 @@ export class BookPage {
   stateActions: string = 'hide';
 
   showSearchBar: boolean = false;
+  currentKeyword: String = "";
+  lastKeyword: String;
   searchResults: Array<any> = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, private toast: Toast, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService, public settingsService: SettingsService) {
     this.book = navParams.get('book');
 
     this.currentChapterNumber = navParams.get('chapterNumber');
+    this.initialVerserNumberVisible = navParams.get('verseNumber');
 
     this.settings = new SettingsModel();
-    this.selectedVerses = new VersesSelectedService();
+    this.selectedVerses = new VersesSelectedService();    
 
     this.initialSlide = this.currentChapterNumber -1;
-    console.log('constructor:initialSlide', this.initialSlide);
 
     // Create a list of chapter with only number (for lazy load of verses)
     for (var _i = 0; _i < this.book.chapterAmount; _i++)
       this.chapters[_i] = new ChapterModel(null, _i+1, null);
+  }
 
-    this._loadCurrentChapter(navParams.get('chapterNumber'));
+  ionViewDidLoad() {
+    this._loadCurrentChapter(this.currentChapterNumber);
 
-    this._loadNearChapters(navParams.get('chapterNumber'));
+    this._loadNearChapters(this.currentChapterNumber);
   }
 
   ionViewWillEnter() {
@@ -82,8 +87,6 @@ export class BookPage {
       .then(settings => {
         this.settings = settings;
       });
-
-    this.onChapterChanged();
   }
 
   openBooks() {
@@ -107,17 +110,20 @@ export class BookPage {
   openSearchBar() {
     this.showSearchBar = true;
 
-    this._lockSlides();
-
     setTimeout(() => {
       this.searchbar.setFocus();
     }, 150);
   }
 
   searchThis(event) {
-    let value = event.target.value;
+    console.log('searchThis', this.currentKeyword);
 
-    this.searchService.searchall(value)
+    if (this.lastKeyword == this.currentKeyword)
+      return;
+
+    this.lastKeyword = this.currentKeyword;
+
+    this.searchService.search(this.currentKeyword)
     .subscribe(
       data => {
         this.searchResults = data;
@@ -126,6 +132,11 @@ export class BookPage {
         console.log(err);
       },
       () => {
+        // Todo: This force VirtualScroll re-render content
+        event.target.blur();
+        event.target.focus();
+        setTimeout(() => { this.content.scrollTo(0, 1, 0); }, 50);
+
         let count = this.searchResults.length;
 
         if (count > 20) {
@@ -136,11 +147,22 @@ export class BookPage {
     );
   }
 
+  openBookSearched(event, result) {
+    this.deviceFeedback.acoustic();
+
+    this.cancelSearch(event);
+  
+    this.navCtrl.setRoot(BookPage, {
+      book: result.book,
+      chapterNumber: result.chapterNumber,
+      verseNumber: result.verse.number
+    });
+  }
+
   cancelSearch(event) {
     this.showSearchBar = false;
+    this.currentKeyword = null;
     this.searchResults = [];
-
-    this._unlockSlides();
   }
 
   presentPopover(event) {
@@ -210,7 +232,8 @@ export class BookPage {
                 this._clearAllVerseSelection();
 
                 let self = this;
-                setTimeout(function(){
+                setTimeout(() => {
+                  // Reload current chapter
                   self._loadCurrentChapter(self.currentChapterNumber);
                 }, 500);
               });              
@@ -261,9 +284,25 @@ export class BookPage {
     .subscribe(
       chapter => { 
         this.currentChapterNumber = chapter.number;
+
+        // Set content of current chapter
         this.chapters[chapter.number-1] = chapter;
       },
-      err => console.log(err));
+      err => console.log(err),
+      () => {
+        // Scroll to verse indicated
+        if (this.initialVerserNumberVisible) {
+          setTimeout(() => {
+            let verseId = "c" + this.currentChapterNumber + "v" + this.initialVerserNumberVisible;
+
+            let yOffset = document.getElementById(verseId).offsetTop;
+
+            let chapterId = "c" + this.currentChapterNumber;
+            let targetSlide = document.getElementById(chapterId).childNodes[0];
+            (<Element>targetSlide).scrollTop = yOffset;
+          }, 0);
+        }
+      });
   }
 
   _loadNearChapters(chapterNumber: number) {

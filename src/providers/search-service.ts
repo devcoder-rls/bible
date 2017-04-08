@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { Platform } from 'ionic-angular';
 
 import { BookService }  from './book-service'
 import { ChapterService }  from './chapter-service'
 
 import { SearchResultModel }  from '../models/searchresult-model'
 
+declare var window: any;
+
 @Injectable()
 export class SearchService {
 
-  constructor(public bookService: BookService, public chapterService: ChapterService) {
+  constructor(public plt: Platform, public bookService: BookService, public chapterService: ChapterService) {
   }
 
-  searchall(keyword) {
-    console.log("Searching for '" + keyword + "'");
+  search(keyword) {
+    console.log('searchall', keyword);
 
-    if (keyword == undefined || keyword.trim() == "")
+    if (keyword == undefined || keyword.trim() == "" || keyword.trim().length < 3)
     {
       return Observable.create(observer => {
         observer.next([]);
@@ -23,9 +26,12 @@ export class SearchService {
       });
     }
 
-    keyword = keyword.toLowerCase();
+    if (this.plt.is('android') && this.plt.is('cordova')) {
+      return this._searchNative(keyword);
+    }
 
     let self = this;
+    keyword = keyword.toLowerCase();
 
     return Observable.create(observer => {
 
@@ -65,6 +71,31 @@ export class SearchService {
           );
         }
       );
+
+    });
+  }
+
+  _searchNative(keyword) {
+    let start = Date.now();
+
+    return Observable.create(observer => {
+
+      window.plugins.BibleSearch.search(keyword, 
+        function(data) {
+          let results: Array<SearchResultModel> = [];
+
+          for (var result of data)
+            results.push(new SearchResultModel(result.book, result.chapterNumber, result.verse));
+
+          let end = Date.now();
+
+          console.log('Duration', end - start, 'Count', results.length);
+
+          observer.next(results);
+          observer.complete();
+        }, function(err) {
+          observer.error(err);
+        });
 
     });
   }

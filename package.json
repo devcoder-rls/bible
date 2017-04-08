@@ -42,7 +42,8 @@
     "cordova-plugin-statusbar",
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "bible-plugin-search"
   ],
   "cordovaPlatforms": [],
   "description": "BibleRD: An Ionic project"

@@ -23,12 +23,13 @@ export class BookmarksPage {
     this.bookmarks = this.bookmarkService.getBookmarks(this.bookmarkList.id);
   }
 
-  openBook(event, bookmark) {   
+  openBook(event, bookmark) {
     this.bookService.get(bookmark.bookId)
       .subscribe(book => {
         this.navCtrl.setRoot(BookPage, {
           book: book,
-          chapterNumber: bookmark.chapterNumber
+          chapterNumber: bookmark.chapterNumber,
+          verseNumber: bookmark.versesNumber[0]
         });
       });
   }
