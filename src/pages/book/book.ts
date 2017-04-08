@@ -10,6 +10,7 @@ import { ChapterService } from '../../providers/chapter-service';
 import { SearchService } from '../../providers/search-service';
 import { BookmarkService } from '../../providers/bookmark-service';
 import { VersesSelectedService } from '../../providers/verses-selected-service';
+import { LastBookVisitedService }  from '../../providers/last-book-visited-service';
 import { SettingsService } from '../../providers/settings-service';
 
 import { ChapterModel }  from '../../models/chapter-model'
@@ -60,7 +61,7 @@ export class BookPage {
   lastKeyword: String;
   searchResults: Array<any> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, private toast: Toast, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService, public settingsService: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, private toast: Toast, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
     this.book = navParams.get('book');
 
     this.currentChapterNumber = navParams.get('chapterNumber');
@@ -74,6 +75,8 @@ export class BookPage {
     // Create a list of chapter with only number (for lazy load of verses)
     for (var _i = 0; _i < this.book.chapterAmount; _i++)
       this.chapters[_i] = new ChapterModel(null, _i+1, null);
+
+    this.lastBookVisitedService.setLastBook(this.book, this.currentChapterNumber);
   }
 
   ionViewDidLoad() {

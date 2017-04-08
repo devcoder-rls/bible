@@ -6,6 +6,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
+import { LastBookVisitedService }  from '../providers/last-book-visited-service';
 import { SettingsService } from '../providers/settings-service';
 
 import { DeviceFeedback } from '@ionic-native/device-feedback';
@@ -71,6 +72,7 @@ import { PopOverPage } from '../pages/popover/popover';
     StatusBar, 
     Toast,
     {provide: ErrorHandler, useClass: IonicErrorHandler}, 
+    LastBookVisitedService,
     SettingsService]
 })
 export class AppModule {}

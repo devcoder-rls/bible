@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { BookModel }  from '../../models/book-model'
 import { BookPage } from '../book/book';
+
+import { LastBookVisitedService }  from '../../providers/last-book-visited-service';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +11,7 @@ import { BookPage } from '../book/book';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private lastBookVisitedService: LastBookVisitedService) {
   }
 
   ionViewWillEnter() {    
@@ -18,11 +19,12 @@ export class HomePage {
   }
 
   openLastBook() {
-    let book: BookModel = new BookModel('genesis', 'Gênesis', 'Gênesis', 50);
-
-    this.navCtrl.setRoot(BookPage, {
-      book: book,
-      chapterNumber: 1
-    });
+    this.lastBookVisitedService.getLastBook().
+      then(lastbook => {
+        this.navCtrl.setRoot(BookPage, {
+          book: lastbook.book,
+          chapterNumber: lastbook.chapterNumber
+        });
+      });
   }
 }
