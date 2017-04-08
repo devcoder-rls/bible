@@ -62,9 +62,7 @@ export class BookPage {
   searchResults: Array<any> = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, private toast: Toast, public chapterService: ChapterService, public searchService: SearchService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
-    this.book = navParams.get('book');
-
-    this.currentChapterNumber = navParams.get('chapterNumber');
+    this._setCurrentBook(navParams.get('book'), navParams.get('chapterNumber'));
     this.initialVerserNumberVisible = navParams.get('verseNumber');
 
     this.settings = new SettingsModel();
@@ -75,14 +73,12 @@ export class BookPage {
     // Create a list of chapter with only number (for lazy load of verses)
     for (var _i = 0; _i < this.book.chapterAmount; _i++)
       this.chapters[_i] = new ChapterModel(null, _i+1, null);
-
-    this.lastBookVisitedService.setLastBook(this.book, this.currentChapterNumber);
   }
 
   ionViewDidLoad() {
-    this._loadCurrentChapter(this.currentChapterNumber);
+    this._loadCurrentChapter();
 
-    this._loadNearChapters(this.currentChapterNumber);
+    this._loadNearChapters();
   }
 
   ionViewWillEnter() {
@@ -179,9 +175,9 @@ export class BookPage {
     try {
       let currentSlideIndex = this.slider.getActiveIndex();
 
-      this.currentChapterNumber = this.chapters[currentSlideIndex].number;
+      this._setCurrentBook(this.book, this.chapters[currentSlideIndex].number);
 
-      this._loadNearChapters(this.currentChapterNumber);
+      this._loadNearChapters();
     } catch(e) {
       // Do nothing
     }
@@ -237,7 +233,7 @@ export class BookPage {
                 let self = this;
                 setTimeout(() => {
                   // Reload current chapter
-                  self._loadCurrentChapter(self.currentChapterNumber);
+                  self._loadCurrentChapter();
                 }, 500);
               });              
             }
@@ -280,14 +276,22 @@ export class BookPage {
       });
   }
 
-  _loadCurrentChapter(chapterNumber: number) {
-    console.log('_loadCurrentChapter', chapterNumber);
+  _setCurrentBook(book: any, chapterNumber: number) {
+    this.book = book;
+    this.currentChapterNumber = chapterNumber;
 
-    this.chapterService.get(this.book, chapterNumber)
+    this.lastBookVisitedService.setLastBook(book, chapterNumber);
+  }
+
+  _loadCurrentChapter() {
+    if (this.currentChapterNumber == null)
+      throw new Error('Current chapter number not defined.');
+
+    console.log('_loadCurrentChapter', this.currentChapterNumber);
+
+    this.chapterService.get(this.book, this.currentChapterNumber)
     .subscribe(
-      chapter => { 
-        this.currentChapterNumber = chapter.number;
-
+      chapter => {
         // Set content of current chapter
         this.chapters[chapter.number-1] = chapter;
       },
@@ -308,12 +312,15 @@ export class BookPage {
       });
   }
 
-  _loadNearChapters(chapterNumber: number) {
-    let chapterIndex = chapterNumber -1;
+  _loadNearChapters() {
+    if (this.currentChapterNumber == null)
+      throw new Error('Current chapter number not defined.');
 
-    if (chapterNumber > 1 
+    let chapterIndex = this.currentChapterNumber -1;
+
+    if (this.currentChapterNumber > 1 
       && !this.chapters[chapterIndex-1].passages) {
-      this.chapterService.get(this.book, chapterNumber-1)
+      this.chapterService.get(this.book, this.currentChapterNumber-1)
       .subscribe(
         chapter => { 
           console.log("Loaded prev chapter ", chapter.number);
@@ -322,9 +329,9 @@ export class BookPage {
         err => console.log(err));
     }
 
-    if (chapterNumber < this.book.chapterAmount 
+    if (this.currentChapterNumber < this.book.chapterAmount 
       && !this.chapters[chapterIndex+1].passages) {
-      this.chapterService.get(this.book, chapterNumber+1)
+      this.chapterService.get(this.book, this.currentChapterNumber+1)
       .subscribe(
         chapter => { 
           console.log("Loaded next chapter ", chapter.number);
