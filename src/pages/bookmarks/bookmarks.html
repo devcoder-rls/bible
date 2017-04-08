@@ -6,11 +6,18 @@
 
 <ion-content>
 
-  <!-- To know pallet color see https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51 -->
-
-  <div padding *ngIf="(bookmarks | async)?.length == 0">
-    Não há marcação ainda. :(
-  </div>
+  <ion-grid class="no-bookmark" *ngIf="(bookmarks | async)?.length == 0">
+    <ion-row>
+      <ion-col text-center>
+        <ion-icon name="bookmark"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <p>Não há marcação ainda :(</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-list>
     <ion-item text-wrap *ngFor="let bookmark of bookmarks | async">
