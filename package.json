@@ -42,6 +42,7 @@
     "cordova-plugin-statusbar",
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
+    "cordova-plugin-x-toast",
     "ionic-plugin-keyboard",
     "bible-plugin-search"
   ],
