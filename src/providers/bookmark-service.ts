@@ -63,7 +63,8 @@ export class BookmarkService {
       .then(data => {
         let lists: Array<BookmarkListModel> = [];
 
-        data = (data != null) ? JSON.parse(data) : this._getDefaultLists();
+        if (data == null)
+          data = this._getDefaultLists();
 
         for (var bookmarkList of data)
           lists.push(new BookmarkListModel(bookmarkList.id, bookmarkList.name, bookmarkList.bookmarkCount));
@@ -79,7 +80,7 @@ export class BookmarkService {
         let bookmarks: Array<BookmarkModel> = [];
 
         if (data != null) {
-          for (var bookmark of JSON.parse(data))
+          for (var bookmark of data)
             bookmarks.push(new BookmarkModel(bookmark.id, bookmark.bookId, bookmark.bookShortName, bookmark.chapterNumber, bookmark.versesNumber, bookmark.shortText));
         }
 
@@ -97,7 +98,7 @@ export class BookmarkService {
         let versesNumber : Array<number> = verses.map(function(verse) { return Number(verse.number) });
         bookmarks.push(new BookmarkModel(Guid.newGuid(), chapter.book.id, chapter.book.shortName, chapter.number, versesNumber, verses[0].text));
 
-        this.storage.set(this.BOOKMARKS_KEY + listId, JSON.stringify(bookmarks));
+        this.storage.set(this.BOOKMARKS_KEY + listId, bookmarks);
 
         this._changeBookmarkCount(listId, +1);
 
@@ -111,7 +112,7 @@ export class BookmarkService {
 
         bookmarks = bookmarks.filter(b => b.id != bookmark.id);
 
-        this.storage.set(this.BOOKMARKS_KEY + listId, JSON.stringify(bookmarks));
+        this.storage.set(this.BOOKMARKS_KEY + listId, bookmarks);
 
         this._changeBookmarkCount(listId, -1);
 
@@ -125,12 +126,10 @@ export class BookmarkService {
         if (data == null)
           return null;
 
-        let json = JSON.parse(data);
-
-        if (json[bookId] == null)
+        if (data[bookId] == null)
           return null;
 
-        return json[bookId][chapterNumber];
+        return data[bookId][chapterNumber];
       });
   }
 
@@ -145,29 +144,30 @@ export class BookmarkService {
           }
         }
 
-        this.storage.set(this.BOOKMARK_LISTS_KEY, JSON.stringify(lists));
+        this.storage.set(this.BOOKMARK_LISTS_KEY, lists);
       });
   }
 
   _addIndex(bookId: string, chapterNumber: number, versesNumber: number[], listId: string) {
     return this.storage.get(this.BOOKMARKS_INDEX_KEY)
       .then(data => {
-        let json = data != null ? JSON.parse(data) : {};
+        if (data == null)
+          data = {};
 
-        if (json[bookId] == null)
-          json[bookId] = {};
+        if (data[bookId] == null)
+          data[bookId] = {};
 
-        if (json[bookId][chapterNumber] == null)
-          json[bookId][chapterNumber] = {};
+        if (data[bookId][chapterNumber] == null)
+          data[bookId][chapterNumber] = {};
 
         for (let verseNumber of versesNumber) {
-          if (json[bookId][chapterNumber][verseNumber] == null)
-            json[bookId][chapterNumber][verseNumber] = [];
+          if (data[bookId][chapterNumber][verseNumber] == null)
+            data[bookId][chapterNumber][verseNumber] = [];
 
-          json[bookId][chapterNumber][verseNumber].push(listId);
+          data[bookId][chapterNumber][verseNumber].push(listId);
         }
 
-        this.storage.set(this.BOOKMARKS_INDEX_KEY, JSON.stringify(json));
+        this.storage.set(this.BOOKMARKS_INDEX_KEY, data);
       });
   }
 
@@ -177,29 +177,27 @@ export class BookmarkService {
         if (data == null)
           return;
 
-        let json = JSON.parse(data);
-
         for (let verseNumber of versesNumber) {
-          var index = json[bookId][chapterNumber][verseNumber].indexOf(listId, 0);
+          var index = data[bookId][chapterNumber][verseNumber].indexOf(listId, 0);
 
           if (index > -1)
-            json[bookId][chapterNumber][verseNumber].splice(index, 1);
+            data[bookId][chapterNumber][verseNumber].splice(index, 1);
 
-          if (json[bookId][chapterNumber][verseNumber].length == 0)
-            delete json[bookId][chapterNumber][verseNumber];
+          if (data[bookId][chapterNumber][verseNumber].length == 0)
+            delete data[bookId][chapterNumber][verseNumber];
         }
 
         // If has no verses in chapter map, remove it
-        if (Object.keys(json[bookId][chapterNumber]).length === 0 
-          && json[bookId][chapterNumber].constructor === Object)
-          delete json[bookId][chapterNumber];
+        if (Object.keys(data[bookId][chapterNumber]).length === 0 
+          && data[bookId][chapterNumber].constructor === Object)
+          delete data[bookId][chapterNumber];
 
         // If has no chapters in book map, remove it
-        if (Object.keys(json[bookId]).length === 0 
-          && json[bookId].constructor === Object)
-          delete json[bookId];
+        if (Object.keys(data[bookId]).length === 0 
+          && data[bookId].constructor === Object)
+          delete data[bookId];
 
-        this.storage.set(this.BOOKMARKS_INDEX_KEY, JSON.stringify(json));
+        this.storage.set(this.BOOKMARKS_INDEX_KEY, data);
       });
   }
 
