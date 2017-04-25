@@ -1,45 +1,22 @@
 <ion-header>
   <ion-navbar>
-    <ion-title [hidden]="showSearchBar">
+    <ion-title>
       <div class="book-title" (click)="openBooks()">{{book.shortName}}</div>
       <div class="chapter-title" (click)="openChapters()">{{currentChapterNumber}}</div>
     </ion-title>
-    <ion-buttons end [hidden]="showSearchBar">
+    <ion-buttons end>
       <button ion-button icon-only (click)="openSearchBar()">
         <ion-icon name="search"></ion-icon>
       </button>
-      <button ion-button icon-only (click)="presentPopover($event)" [hidden]="showSearchBar">
+      <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-searchbar
-      [hidden]="!showSearchBar"
-      #searchbar
-      [(ngModel)]="currentKeyword"
-      placeholder="Pesquisar"
-      autocomplete="on"
-      animated="true"
-      debounce="750"
-      showCancelButton="true"
-      cancelButtonText="Cancelar"
-      color="light"
-      (ionInput)="searchThis($event)" 
-      (ionCancel)="cancelSearch($event)" >
-    </ion-searchbar>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list inset [hidden]="!showSearchBar" [virtualScroll]="searchResults" [approxItemHeight]="'200px'">
-
-    <ion-item text-wrap *virtualItem="let result" (click)="openBookSearched($event, result)">
-      <h2>{{result.verse.text}}</h2>
-      <p>{{result.book.shortName}} {{result.chapterNumber}}:{{result.verse.number}}</p>
-    </ion-item>
-
-  </ion-list>
-
-  <ion-slides #chapterSlider [hidden]="showSearchBar" (ionSlideDidChange)="onChapterChanged()" [initialSlide]="initialSlide">
+  <ion-slides #chapterSlider (ionSlideDidChange)="onChapterChanged()" [initialSlide]="initialSlide">
 
     <ion-slide id="c{{chapter.number}}" *ngFor="let chapter of chapters">
       <div padding class="chapter-header">

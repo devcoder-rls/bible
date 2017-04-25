@@ -12,7 +12,7 @@ declare var window: any;
 @Injectable()
 export class SearchService {
 
-  constructor(public plt: Platform, public bookService: BookService, public chapterService: ChapterService) {
+  constructor(public platform: Platform, public bookService: BookService, public chapterService: ChapterService) {
   }
 
   search(keyword) {
@@ -26,7 +26,7 @@ export class SearchService {
       });
     }
 
-    if (this.plt.is('android') && this.plt.is('cordova')) {
+    if (this.platform.is('android') && this.platform.is('cordova')) {
       return this._searchNative(keyword);
     }
 

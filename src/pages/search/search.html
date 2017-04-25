@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-searchbar
+      #searchbar
+      [(ngModel)]="currentKeyword"
+      placeholder="Pesquisar"
+      autocomplete="on"
+      animated="true"
+      debounce="750"
+      showCancelButton="true"
+      cancelButtonText="Cancelar"
+      color="light"
+      (ionInput)="searchThis($event)" 
+      (ionCancel)="cancelSearch($event)" >
+    </ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list inset [virtualScroll]="searchResults" [approxItemHeight]="'200px'">
+
+    <ion-item text-wrap *virtualItem="let result" (click)="openBookSearched($event, result)">
+      <h2>{{result.verse.text}}</h2>
+      <p>{{result.book.shortName}} {{result.chapterNumber}}:{{result.verse.number}}</p>
+    </ion-item>
+
+  </ion-list>
+</ion-content>
