@@ -202,12 +202,13 @@ export class BookmarkService {
   }
 
   _getDefaultLists() {
-    // next color #E76F51
+    // To know pallet color see https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51
     return [
       {"id": "#264653", "name": "Ler mais tarde", "bookmarkCount": 0},
       {"id": "#2A9D8F", "name": "Favorito", "bookmarkCount": 0},
-      {"id": "#E9C46A", "name": "Interessante", "bookmarkCount": 0},
-      {"id": "#F4A261", "name": "Inspirador", "bookmarkCount": 0}
+      {"id": "#E9C46A", "name": "Importante", "bookmarkCount": 0},
+      {"id": "#F4A261", "name": "Revelador", "bookmarkCount": 0},
+      {"id": "#E76F51", "name": "Estudar", "bookmarkCount": 0}
     ];
   }
 }
