@@ -69,7 +69,13 @@ export class BookPage {
   ionViewDidLoad() {
     this._loadCurrentChapter();
 
-    this._loadNearChapters();
+    // FIXME: Temporary fix until the component swiper call the 
+    // event ionSlideDidChange when initial slide is zero.
+    if (this.initialSlide == 0) {
+      setTimeout(() => {
+        this._loadNearChapters();
+      }, 100);
+    }
   }
 
   ionViewWillEnter() {
@@ -116,7 +122,9 @@ export class BookPage {
 
       this._setCurrentBook(this.book, this.chapters[currentSlideIndex].number);
 
-      this._loadNearChapters();
+      setTimeout(() => {
+        this._loadNearChapters();
+      }, 100);
     } catch(e) {
       // Do nothing
     }
@@ -169,10 +177,9 @@ export class BookPage {
               .then(() => {
                 this._clearAllVerseSelection();
 
-                let self = this;
                 setTimeout(() => {
                   // Reload current chapter
-                  self._loadCurrentChapter();
+                  this._loadCurrentChapter();
                 }, 500);
               });              
             }
