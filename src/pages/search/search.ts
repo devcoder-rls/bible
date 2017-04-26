@@ -21,12 +21,14 @@ export class SearchPage {
 
   currentKeyword: String = "";
   lastKeyword: String;
+  searching: Boolean = false;
   searchResults: Array<any> = [];
+  noResults: Boolean = false;
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, private deviceFeedback: DeviceFeedback, private toast: Toast, public searchService: SearchService) {
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     setTimeout(() => {
       this.searchbar.setFocus();
     }, 150);
@@ -35,10 +37,17 @@ export class SearchPage {
   searchThis(event) {
     console.log('searchThis', this.currentKeyword);
 
+    this.noResults = false;
+
+    if (this.currentKeyword.length < 3) {
+      this.searchResults = [];
+      return;
+    }
+
     if (this.lastKeyword == this.currentKeyword)
       return;
 
-    this.lastKeyword = this.currentKeyword;
+    this.searching = true;
 
     this.searchService.search(this.currentKeyword)
     .subscribe(
@@ -49,31 +58,38 @@ export class SearchPage {
         console.log(err);
       },
       () => {
-        // FIXME: This force VirtualScroll re-render content
-        event.target.blur();
-        event.target.focus();
-        setTimeout(() => { this.content.scrollTo(0, 1, 0); }, 50);
+        this.searching = false;
 
         let count = this.searchResults.length;
 
-        if (count > 20) {
-          this.toast.showLongCenter('Foram encontrados ' + count + ' versículos.')
-            .subscribe(() => {});
+        if (count > 0) {
+          // FIXME: This force VirtualScroll re-render content
+          event.target.blur();
+          event.target.focus();
+          setTimeout(() => { this.content.scrollTo(0, 1, 0); }, 150);
+
+          if (count > 10) {
+            //this.toast.showLongCenter('Foram encontrados ' + count + ' versículos.')
+              //.subscribe(() => {});
+          }
         }
+
+        this.lastKeyword = this.currentKeyword;
+        this.noResults = (count == 0);
       }
     );
   }
 
   openBookSearched(event, result) {
     this.deviceFeedback.acoustic();
+
+    this.cancelSearch(event);
   
     this.navCtrl.setRoot(BookPage, {
       book: result.book,
       chapterNumber: result.chapterNumber,
       verseNumber: result.verse.number
     });
-
-    this.cancelSearch(event);
   }
 
   cancelSearch(event) {

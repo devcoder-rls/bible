@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar hideBackButton>
     <ion-searchbar
       #searchbar
       [(ngModel)]="currentKeyword"
@@ -17,12 +17,25 @@
 </ion-header>
 
 <ion-content>
-  <ion-list inset [virtualScroll]="searchResults" [approxItemHeight]="'200px'">
 
+  <ion-grid class="no-search" [hidden]="!noResults">
+    <ion-row>
+      <ion-col text-center>
+        <ion-icon name="search"></ion-icon>
+        <p>Nenhum resultado encontrado.</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div text-center padding [hidden]="!searching">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list inset [hidden]="searching || noResults" [virtualScroll]="searchResults" [approxItemHeight]="'200px'">
     <ion-item text-wrap *virtualItem="let result" (click)="openBookSearched($event, result)">
-      <h2>{{result.verse.text}}</h2>
+      <h2 [innerHTML]="result.verse.text | highlight: lastKeyword"></h2>
       <p>{{result.book.shortName}} {{result.chapterNumber}}:{{result.verse.number}}</p>
     </ion-item>
-
   </ion-list>
+
 </ion-content>

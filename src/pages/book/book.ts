@@ -98,8 +98,7 @@ export class BookPage {
   }
 
   openSearchBar() {
-    let modal = this.modalCtrl.create(SearchPage);
-    modal.present();
+    this.navCtrl.push(SearchPage);
 
     this._clearAllVerseSelection();
   }

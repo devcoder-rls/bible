@@ -1,2 +1,22 @@
 page-search {
+  ion-grid.no-search {
+    height: 100%;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 130px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    ion-icon, p {
+        color: #CCCCCC;
+    }
+  }
+
+  span.highlight {
+    font-weight: bold;
+  }
 }

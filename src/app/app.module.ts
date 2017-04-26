@@ -29,6 +29,8 @@ import { BookmarksPage } from '../pages/bookmarks/bookmarks';
 import { SettingsPage } from '../pages/settings/settings';
 import { PopOverPage } from '../pages/popover/popover';
 
+import { HighlightPipe } from '../pipes/highlight-pipe';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -42,7 +44,8 @@ import { PopOverPage } from '../pages/popover/popover';
     BookmarkListsPage,
     BookmarksPage,
     SettingsPage,
-    PopOverPage
+    PopOverPage,
+    HighlightPipe
   ],
   imports: [
     BrowserModule,
