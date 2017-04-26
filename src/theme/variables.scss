@@ -49,7 +49,7 @@ $custom-font-path: "../assets/fonts" !default;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #0193E0,
+  primary:    #65A2CF,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -75,7 +75,7 @@ $searchbar-ios-input-search-icon-color:        rgba($toolbar-contrast-color, .5)
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-$toolbar-background: #65A2CF;
+$toolbar-background: color($colors, primary);
 
 
 // App Windows Variables
