@@ -14,3 +14,26 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+.night-mode {
+  
+	* {
+	  background-color: #000 !important;
+	  color: #fff !important;
+	}
+
+	.item-selected {
+	  border: 1.98px solid #fff !important;
+	  border-radius: 4px;
+	}
+
+	ion-fab {
+
+		background-color: transparent !important;
+
+		button {
+			border: 1.98px solid #fff !important;	
+		}
+	}
+}
