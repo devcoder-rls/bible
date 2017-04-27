@@ -1,5 +1,5 @@
-page-bookmarks {
-  ion-grid.no-bookmark {
+page-search {
+  ion-grid.no-search {
     height: 100%;
     justify-content: center;
 
@@ -14,5 +14,9 @@ page-bookmarks {
     ion-icon, p {
         color: #CCCCCC;
     }
+  }
+
+  span.highlight {
+    font-weight: bold;
   }
 }

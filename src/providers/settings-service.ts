@@ -33,15 +33,14 @@ export class SettingsService {
     this.settings = settings;
     this._apply(this.settings);
 
-    this.storage.set(this.SETTINGS_KEY, JSON.stringify(this.settings));
+    this.storage.set(this.SETTINGS_KEY, this.settings);
   }
 
   _loadSettings() {
     return this.storage.get(this.SETTINGS_KEY)
       .then(data => {
         if (data != null) {
-         let json = JSON.parse(data);
-          this.settings = new SettingsModel(json.textsize, json.showPassageTitle, json.showBookmarks, json.keepScreenOn, json.nightMode);
+          this.settings = new SettingsModel(data.textsize, data.showPassageTitle, data.showBookmarks, data.keepScreenOn, data.nightMode);
         }
         else {
           this.settings = this._getDefaultSettings();
