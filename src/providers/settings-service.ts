@@ -40,8 +40,8 @@ export class SettingsService {
     return this.storage.get(this.SETTINGS_KEY)
       .then(data => {
         if (data != null) {
-          let json = JSON.parse(data);
-          this.settings = new SettingsModel(json.textsize, json.showPassageTitle, json.showBookmarks, json.keepScreenOn);
+         let json = JSON.parse(data);
+          this.settings = new SettingsModel(json.textsize, json.showPassageTitle, json.showBookmarks, json.keepScreenOn, json.nightMode);
         }
         else {
           this.settings = this._getDefaultSettings();
@@ -62,6 +62,6 @@ export class SettingsService {
   }
 
   _getDefaultSettings() {
-    return new SettingsModel(13, true, true, false);
+    return new SettingsModel(13, true, true, false, false);
   }
 }

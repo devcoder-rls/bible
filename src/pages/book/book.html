@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [ngClass]="{'night-mode': settings.nightMode }">
   <ion-navbar>
     <ion-title [hidden]="showSearchBar">
       <div class="book-title" (click)="openBooks()">{{book.shortName}}</div>
@@ -29,7 +29,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content [ngClass]="{'night-mode': settings.nightMode }">
   <ion-list inset [hidden]="!showSearchBar" [virtualScroll]="searchResults" [approxItemHeight]="'200px'">
 
     <ion-item text-wrap *virtualItem="let result" (click)="openBookSearched($event, result)">
