@@ -15,25 +15,25 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-
 .night-mode {
-  
-	* {
-	  background-color: #000 !important;
-	  color: #fff !important;
-	}
+  .toolbar-background {
+    background-color: color($colors, primary-night) !important; 
+  }
 
-	.item-selected {
-	  border: 1.98px solid #fff !important;
-	  border-radius: 4px;
-	}
+  .content, .item {
+    background-color: #343434 !important;
+    color: #FFF !important;
+  }
 
-	ion-fab {
+  .content .item p {
+    color: #FFF !important;
+  }
 
-		background-color: transparent !important;
+  .content ion-slides .item-selected, ion-fab button {
+    background-color: color($colors, primary-night) !important; 
+  }
 
-		button {
-			border: 1.98px solid #fff !important;	
-		}
-	}
+  ion-spinner * {
+    stroke: white;
+  }
 }

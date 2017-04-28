@@ -1,4 +1,4 @@
-<ion-header [ngClass]="{'night-mode': settings.nightMode }">
+<ion-header>
   <ion-navbar>
     <ion-title>
       <div class="book-title" (click)="openBooks()">{{book.shortName}}</div>
@@ -15,7 +15,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content [ngClass]="{'night-mode': settings.nightMode }">
+<ion-content>
   <ion-slides #chapterSlider (ionSlideDidChange)="onChapterChanged()" [initialSlide]="initialSlide">
 
     <ion-slide id="c{{chapter.number}}" *ngFor="let chapter of chapters">
