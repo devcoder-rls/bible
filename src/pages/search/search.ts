@@ -29,7 +29,7 @@ export class SearchPage {
 
   ionViewDidLoad() {
     setTimeout(() => {
-      this.searchbar._fireFocus();
+      this.searchbar.setFocus();
     }, 150);
   }
 
