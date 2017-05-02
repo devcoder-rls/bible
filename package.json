@@ -1,6 +1,6 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
+  "name": "holy-bible",
+  "author": "Tom Ferreira",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
@@ -50,5 +50,5 @@
     "bible-plugin-search"
   ],
   "cordovaPlatforms": [],
-  "description": "BibleRD: An Ionic project"
+  "description": "Bíblia Sagrada"
 }
