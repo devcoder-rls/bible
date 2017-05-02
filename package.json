@@ -42,7 +42,10 @@
     "cordova-plugin-statusbar",
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
+    "cordova-plugin-x-socialsharing",
     "cordova-plugin-x-toast",
+    "cordova-plugin-velda-devicefeedback",
+    "cordova-plugin-insomnia",
     "ionic-plugin-keyboard",
     "bible-plugin-search"
   ],
