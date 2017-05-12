@@ -27,9 +27,9 @@ export class SearchPage {
   constructor(public zone: NgZone, public navCtrl: NavController, public viewCtrl: ViewController, private deviceFeedback: DeviceFeedback, private toast: Toast, public searchService: SearchService) {
   }
 
-  ionViewDidLoad() {
-    setTimeout(() => {
-      this.searchbar.setFocus();
+  ionViewDidEnter() {
+    setTimeout(() => { 
+      this.searchbar.setFocus(); 
     }, 150);
   }
 
