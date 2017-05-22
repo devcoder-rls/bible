@@ -29,7 +29,7 @@
           <p padding class="passage" *ngIf="settings.showPassageTitle && passage.name != null">{{passage.name}}</p>
           <ion-item text-wrap id="c{{chapter.number}}v{{verse.number}}" *ngFor="let verse of passage.verses" (click)="onVerseHold(verse, $event)">
             <p item-left>{{verse.number}}.</p>
-            {{verse.text}} 
+            {{verse.text}}
             <span *ngIf="settings.showBookmarks">
               <ion-icon *ngFor="let bookmarkColor of verse.bookmarks" name="bookmark" [style.color]='bookmarkColor' style="margin-right: 5px"></ion-icon>
             </span>
@@ -43,8 +43,8 @@
   </ion-slides>
 
   <ion-fab bottom [hidden]="!showActions" [@showactions]="stateActions">
-    <button ion-fab (click)="addToBookmark()"><ion-icon name="bookmark" ios="ios-bookmark-outline"></ion-icon></button>
-    <button ion-fab outline (click)="openInteractivity()"><ion-icon name="open" ios="ios-open-outline"></ion-icon></button>
-    <button ion-fab (click)="share()"><ion-icon name="share" ios="ios-share-outline"></ion-icon></button>
+    <button ion-fab (click)="addToBookmark()" color="secondary"><ion-icon name="bookmark" ios="ios-bookmark-outline"></ion-icon></button>
+    <button ion-fab outline (click)="openInteractivity()" color="secondary"><ion-icon name="open" ios="ios-open-outline"></ion-icon></button>
+    <button ion-fab (click)="share()" color="secondary"><ion-icon name="share" ios="ios-share-outline"></ion-icon></button>
   </ion-fab>
 </ion-content>

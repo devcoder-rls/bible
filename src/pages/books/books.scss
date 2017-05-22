@@ -1,3 +1,12 @@
 page-books {
-
+  .circle-badge {
+    width: 49px;
+    height: 49px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #fff;
+    line-height: 49px;
+    text-align: center;
+    background: color($colors, secondary, base);
+  }
 }

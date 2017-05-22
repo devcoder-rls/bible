@@ -14,13 +14,17 @@ import { ChaptersPage } from '../chapters/chapters';
 })
 export class BooksPage {
 
-  books: BookModel[] = [];
+  testament: string = "old";
+
+  oldbooks: BookModel[] = [];
+  newbooks: BookModel[] = [];
 
   constructor(public navCtrl: NavController, private deviceFeedback: DeviceFeedback, public bookService: BookService) {
     this.bookService.getAll()
     .subscribe(
       data => {
-        this.books = data;
+        this.oldbooks = data.slice(0, 39);
+        this.newbooks = data.slice(39, data.length);
       },
       err => console.log(err));
   }

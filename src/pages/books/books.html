@@ -5,7 +5,34 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list no-lines>
-    <button ion-item *ngFor="let book of books" (click)="openChapters($event, book)" >{{book.shortName}}</button>
-  </ion-list>
+
+  <ion-segment [(ngModel)]="testament">
+    <ion-segment-button value="old">
+      Velho Testamento
+    </ion-segment-button>
+    <ion-segment-button value="new">
+      Novo Testamento
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="testament">
+    <ion-list *ngSwitchCase="'old'" no-lines>
+      <button ion-item *ngFor="let book of oldbooks" (click)="openChapters($event, book)" >
+        <ion-avatar item-left class="circle-badge">
+          {{book.shortName.replace(" ", "").substring(0,2)}}
+        </ion-avatar>
+        {{book.shortName}}
+      </button>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'new'" no-lines>
+      <button ion-item *ngFor="let book of newbooks" (click)="openChapters($event, book)" >
+        <ion-avatar item-left class="circle-badge">
+          {{book.shortName.replace(" ", "").substring(0,2)}}
+        </ion-avatar>
+        {{book.shortName}}
+      </button>
+    </ion-list>
+  </div>
+
 </ion-content>

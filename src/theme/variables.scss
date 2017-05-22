@@ -49,8 +49,8 @@ $custom-font-path: "../assets/fonts" !default;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #65A2CF,
-  secondary:  #32db64,
+  primary:    #65a2cf,
+  secondary:  #7d9eb6,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
@@ -72,20 +72,24 @@ $searchbar-ios-input-placeholder-color:        rgba($toolbar-contrast-color, .5)
 $searchbar-ios-input-clear-icon-color:         rgba($toolbar-contrast-color, .5) !default;
 $searchbar-ios-input-search-icon-color:        rgba($toolbar-contrast-color, .5) !default;
 
+$font-family-ios-base: "Roboto Slab";
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-$toolbar-background: color($colors, primary);
-
+$font-family-md-base: "Roboto Slab";
 
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
 
+$font-family-wp-base: "Roboto Slab";
 
+// App All
+// --------------------------------------------------
 
+$toolbar-background: color($colors, primary);
 
 // App Theme
 // --------------------------------------------------
