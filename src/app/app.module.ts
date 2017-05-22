@@ -9,6 +9,7 @@ import { MyApp } from './app.component';
 import { LastBookVisitedService }  from '../providers/last-book-visited-service';
 import { SettingsService } from '../providers/settings-service';
 
+import { AppRate } from '@ionic-native/app-rate';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Insomnia } from '@ionic-native/insomnia';
@@ -70,6 +71,7 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
     PopOverPage
   ],
   providers: [
+    AppRate,
     DeviceFeedback,
     InAppBrowser,
     Insomnia,
