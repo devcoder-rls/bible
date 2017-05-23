@@ -45,7 +45,7 @@ export class BookPage {
 
   initialVerserNumberVisible: number;
 
-  initialSlide = 0; 
+  initialSlide = 0;
 
   selectedVerses: VersesSelectedService;
 
@@ -57,7 +57,7 @@ export class BookPage {
     this.initialVerserNumberVisible = navParams.get('verseNumber');
 
     this.settings = new SettingsModel();
-    this.selectedVerses = new VersesSelectedService();    
+    this.selectedVerses = new VersesSelectedService();
 
     this.initialSlide = this.currentChapterNumber -1;
 
@@ -69,7 +69,7 @@ export class BookPage {
   ionViewDidLoad() {
     this._loadCurrentChapter();
 
-    // FIXME: Temporary fix until the component swiper call the 
+    // FIXME: Temporary fix until the component swiper call the
     // event ionSlideDidChange when initial slide is zero.
     if (this.initialSlide == 0) {
       setTimeout(() => {
@@ -181,7 +181,7 @@ export class BookPage {
                   // Reload current chapter
                   this._loadCurrentChapter();
                 }, 500);
-              });              
+              });
             }
           }
         ]
@@ -212,13 +212,13 @@ export class BookPage {
 
     let options = {
       message: message,
-      url: 'Para ler esse e outros livros da Bíblia Sagrada, baixe o aplicativo grátis https://goo.gl/GJrcpr',
+      url: 'Para ler esse e outros livros da Bíblia Sagrada, baixe o aplicativo grátis https://goo.gl/nTuD0I',
       chooserTitle: 'Escolha um aplicativo'
     };
 
     this.socialSharing.shareWithOptions(options)
       .then((result) => {
-        this._clearAllVerseSelection();          
+        this._clearAllVerseSelection();
       });
   }
 
@@ -264,22 +264,22 @@ export class BookPage {
 
     let chapterIndex = this.currentChapterNumber -1;
 
-    if (this.currentChapterNumber > 1 
+    if (this.currentChapterNumber > 1
       && !this.chapters[chapterIndex-1].passages) {
       this.chapterService.get(this.book, this.currentChapterNumber-1)
       .subscribe(
-        chapter => { 
+        chapter => {
           console.log("Loaded prev chapter ", chapter.number);
           this.chapters[chapter.number-1] = chapter;
         },
         err => console.log(err));
     }
 
-    if (this.currentChapterNumber < this.book.chapterAmount 
+    if (this.currentChapterNumber < this.book.chapterAmount
       && !this.chapters[chapterIndex+1].passages) {
       this.chapterService.get(this.book, this.currentChapterNumber+1)
       .subscribe(
-        chapter => { 
+        chapter => {
           console.log("Loaded next chapter ", chapter.number);
           this.chapters[chapter.number-1] = chapter;
         },
