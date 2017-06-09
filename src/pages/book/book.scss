@@ -43,12 +43,12 @@ page-book {
     padding-right: 20px;
   }
 
-  .item [item-left], .item [item-right] {
+  .item [item-start], .item [item-end] {
     font-weight: bold;
     color: color($colors, primary, base);
   }
 
-  .item-md [item-left], .item-md [item-right] {
+  .item-md [item-start], .item-md [item-end] {
     margin-top: 7px;
   }
 
@@ -63,67 +63,67 @@ page-book {
   }
 
   .textsize-10 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 10pt;
     }
   }
 
   .textsize-11 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 11pt;
     }
   }
 
   .textsize-12 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 12pt;
     }
   }
 
   .textsize-13 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 13pt;
     }
   }
 
   .textsize-14 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 14pt;
     }
   }
 
   .textsize-15 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 15pt;
     }
   }
 
   .textsize-16 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 16pt;
     }
   }
 
   .textsize-17 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 17pt;
     }
   }
 
   .textsize-18 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 18pt;
     }
   }
 
   .textsize-19 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 19pt;
     }
   }
 
   .textsize-20 {
-    .passage, .item, .item .label, .item [item-left] {
+    .passage, .item, .item .label, .item [item-start] {
       font-size: 20pt;
     }
   }

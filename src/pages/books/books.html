@@ -18,7 +18,7 @@
   <div [ngSwitch]="testament">
     <ion-list *ngSwitchCase="'old'" no-lines>
       <button ion-item *ngFor="let book of oldbooks" (click)="openChapters($event, book)" >
-        <ion-avatar item-left class="circle-badge">
+        <ion-avatar item-start class="circle-badge">
           {{book.shortName.replace(" ", "").substring(0,2)}}
         </ion-avatar>
         {{book.shortName}}
@@ -27,7 +27,7 @@
 
     <ion-list *ngSwitchCase="'new'" no-lines>
       <button ion-item *ngFor="let book of newbooks" (click)="openChapters($event, book)" >
-        <ion-avatar item-left class="circle-badge">
+        <ion-avatar item-start class="circle-badge">
           {{book.shortName.replace(" ", "").substring(0,2)}}
         </ion-avatar>
         {{book.shortName}}

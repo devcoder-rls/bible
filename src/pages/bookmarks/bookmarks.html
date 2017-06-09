@@ -19,7 +19,7 @@
     <ion-item text-wrap *ngFor="let bookmark of bookmarks | async">
       <h2 (click)="openBook($event, bookmark)">"{{bookmark.shortText}} (...)"</h2>
       <p>{{bookmark.bookShortName}} {{bookmark.chapterNumber}}:{{bookmark.versesNumber}}</p>
-      <button ion-button icon-only clear item-right (click)="remove(bookmark)"><ion-icon name="trash"></ion-icon></button>
+      <button ion-button icon-only clear item-end (click)="remove(bookmark)"><ion-icon name="trash"></ion-icon></button>
     </ion-item>
   </ion-list>
 
