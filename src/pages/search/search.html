@@ -11,6 +11,7 @@
       cancelButtonText="Cancelar"
       color="light"
       (ionInput)="searchThis($event)" 
+      (keyup.enter)="searchThis($event)"
       (ionCancel)="cancelSearch($event)" >
     </ion-searchbar>
   </ion-navbar>
