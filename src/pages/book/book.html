@@ -1,8 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <div class="book-title" (click)="openBooks()">{{book.shortName}}</div>
-      <div class="chapter-title" (click)="openChapters()">{{currentChapterNumber}}</div>
+      <div class="book-title" (click)="openBooks()">
+        {{book.shortName}}
+        <ion-icon name="ios-arrow-down"></ion-icon>
+      </div>
+      <div class="chapter-title" (click)="openChapters()">
+        {{currentChapterNumber}}
+        <ion-icon name="ios-arrow-down"></ion-icon>
+      </div>
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="openSearchBar()">

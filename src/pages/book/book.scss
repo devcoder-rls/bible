@@ -12,6 +12,12 @@ page-book {
     padding: 0 25px;
   }
 
+  .book-title ion-icon,
+  .chapter-title ion-icon {
+    margin: 0 5px;
+    font-size: 1.8rem;
+  }
+
   .chapter-header {
     margin-top: 30px;
     font-family: "Roboto Slab";
