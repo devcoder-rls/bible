@@ -89,7 +89,7 @@ export class BookmarkService {
   }
 
   addBookmark(listId: string, chapter: ChapterModel, verses: VerseModel[]) {
-    if (verses.length == 0)
+    if (listId == null || verses.length == 0)
       return;
 
     return this.getBookmarks(listId)
@@ -128,6 +128,9 @@ export class BookmarkService {
 
         if (data[bookId] == null)
           return null;
+
+        // Temporário: Remove after version 1.0.0
+        this._fixBugIndex(bookId, chapterNumber, data[bookId][chapterNumber]);
 
         return data[bookId][chapterNumber];
       });
@@ -178,6 +181,9 @@ export class BookmarkService {
           return;
 
         for (let verseNumber of versesNumber) {
+          if (!data[bookId][chapterNumber][verseNumber])
+            continue;
+
           var index = data[bookId][chapterNumber][verseNumber].indexOf(listId, 0);
 
           if (index > -1)
@@ -210,5 +216,16 @@ export class BookmarkService {
       {"id": "#F4A261", "name": "Revelador", "bookmarkCount": 0},
       {"id": "#E76F51", "name": "Estudar", "bookmarkCount": 0}
     ];
+  }
+
+  _fixBugIndex(bookId, chapterNumber, chapterIndex) {
+    if (chapterIndex) {
+      var versesNumber: number[] = [];
+
+      for (var v in chapterIndex)
+        versesNumber.push(Number(v));
+
+      this._removeIndex(bookId, chapterNumber, versesNumber, undefined);
+    }
   }
 }

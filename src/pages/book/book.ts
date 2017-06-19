@@ -172,6 +172,9 @@ export class BookPage {
           {
             text: 'Ok',
             handler: listId => {
+              if (listId == null)
+                return false;
+
               this.bookmarkService.addBookmark(
                 listId, this.chapters[this.currentChapterNumber-1], this.selectedVerses.getVerses())
               .then(() => {
