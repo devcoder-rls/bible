@@ -34,8 +34,6 @@ export class SearchPage {
   }
 
   searchThis(event) {
-    console.log('searchThis', this.currentKeyword);
-
     this.noResults = false;
 
     if (this.currentKeyword.length < 3) {

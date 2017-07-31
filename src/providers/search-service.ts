@@ -16,8 +16,6 @@ export class SearchService {
   }
 
   search(keyword) {
-    console.log('searchall', keyword);
-
     if (keyword == undefined || keyword.trim() == "" || keyword.trim().length < 3)
     {
       return Observable.create(observer => {
@@ -76,8 +74,6 @@ export class SearchService {
   }
 
   _searchNative(keyword) {
-    let start = Date.now();
-
     return Observable.create(observer => {
 
       window.plugins.BibleSearch.search(keyword, 
@@ -86,10 +82,6 @@ export class SearchService {
 
           for (var result of data)
             results.push(new SearchResultModel(result.book, result.chapterNumber, result.verse));
-
-          let end = Date.now();
-
-          console.log('Duration', end - start, 'Count', results.length);
 
           observer.next(results);
           observer.complete();
