@@ -80,6 +80,10 @@ $font-family-ios-base: "Roboto Slab";
 
 $font-family-md-base: "Roboto Slab";
 
+$segment-button-md-border-bottom-color: color($colors, primary);
+$segment-button-md-text-color-activated: #FFF;
+$segment-button-md-border-color-activated: #FFF;
+
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here

@@ -1,23 +1,26 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar no-border-bottom>
     <ion-title>Bíblia Sagrada</ion-title>
   </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="testament">
+      <ion-segment-button value="old">
+        Antigo Testamento
+      </ion-segment-button>
+      <ion-segment-button value="new">
+        Novo Testamento
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
 </ion-header>
 
-<ion-content padding>
-
-  <ion-segment [(ngModel)]="testament">
-    <ion-segment-button value="old">
-      Antigo Testamento
-    </ion-segment-button>
-    <ion-segment-button value="new">
-      Novo Testamento
-    </ion-segment-button>
-  </ion-segment>
+<ion-content>
 
   <div [ngSwitch]="testament">
     <ion-list *ngSwitchCase="'old'" no-lines>
-      <button ion-item *ngFor="let book of oldbooks" (click)="openChapters($event, book)" >
+      <button ion-item id="{{book.id}}" *ngFor="let book of oldbooks" (click)="openChapters($event, book)" >
         <ion-avatar item-start class="circle-badge">
           {{book.shortName.replace(" ", "").substring(0,2)}}
         </ion-avatar>
@@ -26,7 +29,7 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'new'" no-lines>
-      <button ion-item *ngFor="let book of newbooks" (click)="openChapters($event, book)" >
+      <button ion-item id="{{book.id}}" *ngFor="let book of newbooks" (click)="openChapters($event, book)" >
         <ion-avatar item-start class="circle-badge">
           {{book.shortName.replace(" ", "").substring(0,2)}}
         </ion-avatar>

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, Content } from 'ionic-angular';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 
 import { BookService } from '../../providers/book-service';
@@ -13,20 +13,32 @@ import { ChaptersPage } from '../chapters/chapters';
   providers: [BookService]
 })
 export class BooksPage {
+  @ViewChild(Content) content: Content;
 
-  testament: string = "old";
+  testament: string;
 
   oldbooks: BookModel[] = [];
   newbooks: BookModel[] = [];
 
-  constructor(public navCtrl: NavController, private deviceFeedback: DeviceFeedback, public bookService: BookService) {
+  currentBookId: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private deviceFeedback: DeviceFeedback, public bookService: BookService) {
+    this.currentBookId = navParams.get('currentBookId');
+
     this.bookService.getAll()
     .subscribe(
       data => {
         this.oldbooks = data.slice(0, 39);
         this.newbooks = data.slice(39, data.length);
+
+        this.testament =
+          this._getBookIndex(data, this.currentBookId) < 39 ? "old" : "new";
       },
       err => console.log(err));
+  }
+
+  ionViewWillEnter() {
+    setTimeout(() => this._scrollToCurrentBook(), 10);
   }
 
   openChapters(event, book) {
@@ -35,5 +47,18 @@ export class BooksPage {
     this.navCtrl.push(ChaptersPage, {
       book: book
     });
+  }
+
+  _getBookIndex(books: BookModel[], bookId: string) {
+    let i = 0;
+    for(; i <= books.length; ++i) {
+      if (books[i].id == bookId)
+        return i;
+    }
+  }
+
+  _scrollToCurrentBook() {
+    let yOffset = document.getElementById(this.currentBookId).offsetTop;
+    this.content.scrollTo(0, yOffset, 0);
   }
 }

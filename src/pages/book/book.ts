@@ -88,7 +88,7 @@ export class BookPage {
   openBooks() {
     this.deviceFeedback.acoustic();
 
-    this.navCtrl.push(BooksPage);
+    this.navCtrl.push(BooksPage, {"currentBookId": this.book.id});
 
     this._clearAllVerseSelection();
   }
