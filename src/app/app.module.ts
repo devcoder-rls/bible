@@ -11,6 +11,7 @@ import { SettingsService } from '../providers/settings-service';
 
 import { AppRate } from '@ionic-native/app-rate';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
+import { HeaderColor } from '@ionic-native/header-color';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Insomnia } from '@ionic-native/insomnia';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -73,14 +74,16 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
   providers: [
     AppRate,
     DeviceFeedback,
+    HeaderColor,
     InAppBrowser,
     Insomnia,
-    SocialSharing,    
+    SocialSharing,
     SplashScreen,
-    StatusBar, 
+    StatusBar,
     Toast,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}, 
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     LastBookVisitedService,
-    SettingsService]
+    SettingsService
+  ]
 })
 export class AppModule {}
