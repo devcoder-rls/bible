@@ -1,0 +1,37 @@
+.night-mode {
+  .toolbar-background {
+    background-color: color($night-colors, primary) !important; 
+  }
+
+  .content, .item {
+    background-color: #303030 !important;
+    color: #FFF !important;
+  }
+
+  .content .item p {
+    color: #FFF !important;
+  }
+
+  .content ion-slides .item-selected, ion-fab button {
+    background-color: color($night-colors, secondary) !important; 
+  }
+
+  ion-spinner * {
+    stroke: white;
+  }
+
+  .range-bar {
+    background-color: #463E3F !important;
+  }
+
+  .s2,
+  .s3,
+  .toggle-inner,
+  .range-pin,
+  .range-pin::before,
+  .range-knob,
+  .range-bar-active {
+    background-color: white !important;
+    color: black !important;
+  }
+}
