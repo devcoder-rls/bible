@@ -46,6 +46,9 @@ export class SearchPage {
 
     this.searching = true;
 
+    // Force virtual scroll reset position.
+    this.searchResults = [];
+
     this.searchService.search(this.currentKeyword)
     .subscribe(
       data => {
@@ -68,7 +71,7 @@ export class SearchPage {
           }
         }
         
-        // FIXME: This zone force screen re-rencer content
+        // FIXME: This zone force screen re-render content
         this.zone.run(() => {
           this.lastKeyword = this.currentKeyword;
           this.noResults = (count == 0);
