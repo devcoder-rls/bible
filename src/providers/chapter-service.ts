@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -12,18 +12,16 @@ import { ChapterModel, PassageModel, VerseModel }  from '../models/chapter-model
 @Injectable()
 export class ChapterService {
 
-  constructor(public http: Http, public bookmarkService: BookmarkService) {
+  constructor(public http: HttpClient, public bookmarkService: BookmarkService) {
   }
 
   get(book: BookModel, number: number) {
     return Observable.forkJoin([
       this.http.get('data/' + book.id + '/' + number + '.json')      
         .map(res => {
-          let response = res.json()
-
           let passages: Array<PassageModel> = [];
 
-          for (let p of response.content) {
+          for (let p of res['content']) {
             let verses: Array<VerseModel> = [];
 
             for (let v of p.verses)
