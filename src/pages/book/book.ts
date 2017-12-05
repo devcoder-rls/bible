@@ -88,7 +88,9 @@ export class BookPage {
   openBooks() {
     this.deviceFeedback.acoustic();
 
-    this.navCtrl.push(BooksPage, {"currentBookId": this.book.id});
+    this.navCtrl.push(BooksPage, {
+      currentBookId: this.book.id
+    });
 
     this._clearAllVerseSelection();
   }
@@ -195,7 +197,12 @@ export class BookPage {
   }
 
   openInteractivity() {
-    let modal = this.modalCtrl.create(InteractionPage, { userId: 8675309 });
+    let modal = this.modalCtrl.create(InteractionPage, { 
+      book: this.book,
+      chapterNumber: this.currentChapterNumber,
+      verses: this.selectedVerses.getVerses() 
+    });
+
     modal.present();
 
     this._clearAllVerseSelection();
