@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 import { Platform } from 'ionic-angular';
 
 import { BookService }  from './book-service'
