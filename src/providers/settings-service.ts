@@ -9,6 +9,15 @@ export class SettingsService {
 
   private SETTINGS_KEY: string = "settings";
 
+  private DEFAULTS: {[param: string]: any} = {
+    'textsize': 13,
+    'fontname': 'roboto',
+    'showPassageTitle': true, 
+    'showBookmarks': true, 
+    'keepScreenOn': false, 
+    'nightMode': false
+  }
+
   private settings: SettingsModel;
 
   constructor(private storage: Storage, private insomnia: Insomnia) {
@@ -39,12 +48,14 @@ export class SettingsService {
   _loadSettings() {
     return this.storage.get(this.SETTINGS_KEY)
       .then(data => {
-        if (data != null) {
-          this.settings = new SettingsModel(data.textsize, data.showPassageTitle, data.showBookmarks, data.keepScreenOn, data.nightMode);
-        }
-        else {
-          this.settings = this._getDefaultSettings();
-        }
+
+        this.settings = new SettingsModel(
+          this._getParamValueOrDefault(data, 'textsize'), 
+          this._getParamValueOrDefault(data, 'fontname'), 
+          this._getParamValueOrDefault(data, 'showPassageTitle'), 
+          this._getParamValueOrDefault(data, 'showBookmarks'), 
+          this._getParamValueOrDefault(data, 'keepScreenOn'), 
+          this._getParamValueOrDefault(data, 'nightMode'));
 
         return this.settings;
       }
@@ -60,7 +71,10 @@ export class SettingsService {
     }
   }
 
-  _getDefaultSettings() {
-    return new SettingsModel(13, true, true, false, false);
+  _getParamValueOrDefault(data, name: string) {
+    if (data == null)
+      return this.DEFAULTS[name];
+
+    return data[name] || this.DEFAULTS[name];
   }
 }

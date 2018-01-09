@@ -20,7 +20,6 @@ page-book {
 
   .chapter-header {
     margin-top: 30px;
-    font-family: "Roboto Slab";
 
     h2 {
       text-align: center;
@@ -45,12 +44,10 @@ page-book {
   }
 
   .item, .item .label {
-    font-family: "Roboto Slab";
     font-weight: 300;
   }
 
   .passage {
-    font-family: "Roboto Slab";
     padding: 0 20 0 20px !important;
   }
 
@@ -58,6 +55,40 @@ page-book {
     color: color($colors, primary, base);
     font-weight: bold;
   }
+
+  /* Font options */
+  
+  .fontname-roboto {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: "Roboto Slab";
+    }
+  }
+
+  .fontname-arial {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: Arial,Helvetica Neue,Helvetica,sans-serif; 
+    }
+  }
+
+  .fontname-palatino {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif; 
+    }  
+  }
+
+  .fontname-times-new-roman {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif;
+    }
+  }
+
+  .fontname-verdana {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: Verdana,Geneva,sans-serif;
+    }
+  }
+
+  /* Textsize options */
 
   .textsize-10 {
     .passage, .item, .item .label {
