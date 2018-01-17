@@ -73,7 +73,7 @@ page-book {
   .fontname-palatino {
     .chapter-header, .item, .item .label, .passage {
       font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif; 
-    }  
+    }
   }
 
   .fontname-times-new-roman {
@@ -82,76 +82,98 @@ page-book {
     }
   }
 
-  .fontname-verdana {
+  .fontname-helvetica {
     .chapter-header, .item, .item .label, .passage {
-      font-family: Verdana,Geneva,sans-serif;
+      font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
     }
   }
 
   /* Textsize options */
 
   .textsize-10 {
-    .passage, .item, .item .label {
+    .passage { font-size: 11pt; }
+
+    .item, .item .label {
       font-size: 10pt;
     }
   }
 
   .textsize-11 {
-    .passage, .item, .item .label {
+    .passage { font-size: 12pt; }
+
+    .item, .item .label {
       font-size: 11pt;
     }
   }
 
   .textsize-12 {
-    .passage, .item, .item .label {
+    .passage { font-size: 13pt; }
+
+    .item, .item .label {
       font-size: 12pt;
     }
   }
 
   .textsize-13 {
-    .passage, .item, .item .label {
+    .passage { font-size: 14pt; }
+
+    .item, .item .label {
       font-size: 13pt;
     }
   }
 
   .textsize-14 {
-    .passage, .item, .item .label {
+    .passage { font-size: 15pt; }
+
+    .item, .item .label {
       font-size: 14pt;
     }
   }
 
   .textsize-15 {
-    .passage, .item, .item .label {
+    .passage { font-size: 16pt; }
+
+    .item, .item .label {
       font-size: 15pt;
     }
   }
 
   .textsize-16 {
-    .passage, .item, .item .label {
+    .passage { font-size: 17pt; }
+
+    .item, .item .label {
       font-size: 16pt;
     }
   }
 
   .textsize-17 {
-    .passage, .item, .item .label {
+    .passage { font-size: 18pt; }
+
+    .item, .item .label {
       font-size: 17pt;
     }
   }
 
   .textsize-18 {
-    .passage, .item, .item .label {
+    .passage { font-size: 19pt; }
+
+    .item, .item .label {
       font-size: 18pt;
     }
   }
 
   .textsize-19 {
-    .passage, .item, .item .label {
+    .passage { font-size: 20pt; }
+
+    .item, .item .label {
       font-size: 19pt;
     }
   }
 
   .textsize-20 {
-    .passage, .item, .item .label {
+    .passage { font-size: 21pt; }
+
+    .item, .item .label {
       font-size: 20pt;
     }
   }
