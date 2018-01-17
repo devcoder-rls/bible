@@ -49,6 +49,11 @@ page-book {
     font-weight: 300;
   }
 
+  // Fix a bug in text-wrap that, sometimes, show ellipsis in verse
+  [text-wrap] ion-label {
+    text-overflow: clip !important;
+  }
+
   .passage {
     font-family: "Roboto Slab";
     padding: 0 20 0 20px !important;
