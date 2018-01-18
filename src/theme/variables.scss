@@ -5,6 +5,18 @@ $font-path: "../assets/fonts";
 @import "ionic.globals";
 
 @font-face {
+  font-family: "Helvetica Neue";
+  font-style: normal;
+  src: url("#{$font-path}/helvetica-neue.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Palatino";
+  font-style: normal;
+  src: url("#{$font-path}/palatino.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 300;
