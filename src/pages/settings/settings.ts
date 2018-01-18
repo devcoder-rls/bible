@@ -11,6 +11,7 @@ import { SettingsService } from '../../providers/settings-service';
 export class SettingsPage {
 
   settings: SettingsModel = new SettingsModel();
+  availablesFonts: any = SettingsModel.AVAILABLE_FONTS;
 
   constructor(public navCtrl: NavController, public settingsService: SettingsService) {
     this.settingsService.getSettings().then(settings => {

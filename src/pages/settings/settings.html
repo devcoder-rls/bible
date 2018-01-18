@@ -13,6 +13,12 @@
       </ion-range>
     </ion-item>
     <ion-item>
+      <ion-label>Fonte</ion-label>
+      <ion-select [(ngModel)]="settings.fontname">
+        <ion-option *ngFor="let font of availablesFonts" [value]="font.name">{{font.label}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
       <ion-label text-wrap>
         Mostrar passagens
         <p>O título da passagem será apresentado durante a leitura</p>

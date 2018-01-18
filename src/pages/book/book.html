@@ -21,7 +21,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="fontname-{{settings.fontname}} textsize-{{settings.textsize}}">
   <ion-slides #chapterSlider (ionSlideDidChange)="onChapterChanged()" [initialSlide]="initialSlide">
 
     <ion-slide id="c{{chapter.number}}" *ngFor="let chapter of chapters">
@@ -31,7 +31,7 @@
       </div>
 
       <ion-list no-lines>
-        <div class="textsize-{{settings.textsize}}" *ngFor="let passage of chapter.passages">
+        <div *ngFor="let passage of chapter.passages">
           <p padding class="passage" *ngIf="settings.showPassageTitle && passage.name != null">{{passage.name}}</p>
           <ion-item text-wrap id="c{{chapter.number}}v{{verse.number}}" *ngFor="let verse of passage.verses" (click)="onVerseHold(verse, $event)">
             <span class="verse">{{verse.number}}. </span>
