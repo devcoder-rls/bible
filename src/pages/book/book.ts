@@ -181,8 +181,9 @@ export class BookPage {
                 this._clearAllVerseSelection();
 
                 setTimeout(() => {
-                  // Reload current chapter
-                  this._loadCurrentChapter();
+                  // Reload current chapter, mantain current position
+                  let yOffset = this._getCurrentOffsetTop();
+                  this._loadCurrentChapter(yOffset);
                 }, 500);
               });
             }
@@ -232,11 +233,11 @@ export class BookPage {
     this.lastBookVisitedService.setLastBook(book, chapterNumber);
   }
 
-  _loadCurrentChapter() {
+  _loadCurrentChapter(offsetTopInit?: number) {
     if (this.currentChapterNumber == null)
       throw new Error('Current chapter number not defined.');
 
-    console.log('_loadCurrentChapter', this.currentChapterNumber);
+    console.log('_loadCurrentChapter', this.currentChapterNumber, offsetTopInit);
 
     this.chapterService.get(this.book, this.currentChapterNumber)
     .subscribe(
@@ -246,18 +247,14 @@ export class BookPage {
       },
       err => console.log(err),
       () => {
-        // Scroll to verse indicated
-        if (this.initialVerserNumberVisible) {
-          setTimeout(() => {
-            let verseId = "c" + this.currentChapterNumber + "v" + this.initialVerserNumberVisible;
-
-            let yOffset = document.getElementById(verseId).offsetTop;
-
-            let chapterId = "c" + this.currentChapterNumber;
-            let targetSlide = document.getElementById(chapterId).childNodes[0];
-            (<Element>targetSlide).scrollTop = yOffset;
-          }, 0);
-        }
+        setTimeout(() => {
+          // Scroll to position indicated
+          if (offsetTopInit > 0) {
+            this._setOffsetTop(offsetTopInit);
+          } else if (this.initialVerserNumberVisible > 0) {
+            this._setOffsetTopFromVerse(this.initialVerserNumberVisible);
+          }
+        }, 0);
       });
   }
 
@@ -321,5 +318,24 @@ export class BookPage {
     verseElement.classList.remove("item-selected")
 
     this.selectedVerses.removeVerse(verse);
+  }
+
+  _getCurrentOffsetTop() {
+    let chapterId = "c" + this.currentChapterNumber;
+    let targetSlide = document.getElementById(chapterId).childNodes[0];
+    return (<Element>targetSlide).scrollTop;
+  }
+
+  _setOffsetTop(offsetTop: number) {
+    let chapterId = "c" + this.currentChapterNumber;
+    let targetSlide = document.getElementById(chapterId).childNodes[0];
+    (<Element>targetSlide).scrollTop = offsetTop;
+  }
+
+  _setOffsetTopFromVerse(verseNumber: number) {
+    let verseId = "c" + this.currentChapterNumber + "v" + verseNumber;
+    let offsetTop = document.getElementById(verseId).offsetTop;
+
+    this._setOffsetTop(offsetTop);
   }
 }
