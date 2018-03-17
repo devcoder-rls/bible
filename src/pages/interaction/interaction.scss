@@ -1,5 +1,14 @@
 page-interaction {
 
+  ion-content {
+    background-color: #ebecef !important;
+  }
+
+  .card-md {
+    margin: 7px;
+    width: calc(100% - 14px);
+  }
+
   h2.subtitle {
   	padding-left: 16px; 
   	margin: 5px 0px; 
@@ -17,4 +26,13 @@ page-interaction {
     height: 100%
   }
 
+  .item ion-thumbnail {
+    min-width: 5rem;    
+    min-height: 5rem;
+    img {
+      object-fit: cover;
+      max-width: 5rem;
+      max-height: 5rem;
+    }
+  }
 }

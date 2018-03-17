@@ -3,7 +3,9 @@ import { NavController, NavParams, ViewController, ModalController, Platform } f
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 
+import { NERModel }  from '../../models/ner-model'
 import { InteractionService } from '../../providers/interaction-service';
+import { VersesSelectedService } from '../../providers/verses-selected-service';
 
 import { InteractionMorePage } from '../interaction-more/interaction-more';
 
@@ -16,9 +18,7 @@ export class InteractionPage {
 
   book: any;
   chapterNumber: number;
-
-  verses: any[];
-  versesNumbers: string;
+  verses: VersesSelectedService;
 
   entities: any;
 
@@ -29,7 +29,6 @@ export class InteractionPage {
     this.chapterNumber = navParams.get('chapterNumber');
     this.verses = navParams.get('verses');
 
-    this._formatVersesNumbers();
     this.slidesPerView = (plt.isPortrait() && plt.width() < 768 ? 3 : 4);
 
     this._loadData();
@@ -52,22 +51,15 @@ export class InteractionPage {
     this.viewCtrl.dismiss();
   }
 
+  // Indicate that need show the spot if it is different from the label.
+  needShowSpot(entity: NERModel) {
+    return entity.spot.toLowerCase() !== entity.label.toLowerCase();
+  }
+
   _loadData() {
-    let versesNumbers = this.verses.map((verse) => verse.number);
+    let versesNumbers = this.verses.getVerses().map((verse) => verse.number);
 
     this.entities = 
       this.interactionService.get(this.book.id, this.chapterNumber, versesNumbers);
-  }
-
-  _formatVersesNumbers() {
-    let numbers = this.verses.map((verse) => verse.number);
-    let lastNumber = numbers.pop();
-
-    this.versesNumbers = "";
-
-    if (numbers.length > 0)
-      this.versesNumbers = numbers.join(", ") + " e ";
-
-    this.versesNumbers += lastNumber;
   }
 }
