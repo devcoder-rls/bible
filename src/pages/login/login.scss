@@ -1,0 +1,39 @@
+page-login {
+  ion-content {
+    background: #ffffff url("../assets/login/background.png") no-repeat center center fixed;
+    background-size: cover;
+  }
+  .logo {
+    width: 40%;
+    max-width: 300px;
+    height: auto;
+    margin: 0 auto;
+    padding-top: 50px;
+  }
+  p.text {
+  	color: #ffffff;
+  	background-color: rgba(0, 0, 0, .4);
+  	font-size: 14pt;
+  	padding: 20px;
+  }
+  .login-button {
+    width: 100%;
+    height: 5rem;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: none !important;
+  }
+  .facebook {
+    background-color: rgba(59, 89, 152, .9);
+    &.activated {
+      background-color: rgba(59, 89, 152, 1) !important;
+    }
+  }
+  .google {
+    background-color: rgba(219, 68, 55, .9);
+    &.activated {
+      background-color: rgba(219, 68, 55, 1) !important;
+    }
+  }
+
+}

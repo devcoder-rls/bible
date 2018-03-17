@@ -15,7 +15,8 @@ export class SettingsService {
     'showPassageTitle': true, 
     'showBookmarks': true, 
     'keepScreenOn': false, 
-    'nightMode': false
+    'nightMode': false,
+    'backup': false
   }
 
   private settings: SettingsModel;
@@ -48,14 +49,14 @@ export class SettingsService {
   _loadSettings() {
     return this.storage.get(this.SETTINGS_KEY)
       .then(data => {
-
         this.settings = new SettingsModel(
           this._getParamValueOrDefault(data, 'textsize'), 
           this._getParamValueOrDefault(data, 'fontname'), 
           this._getParamValueOrDefault(data, 'showPassageTitle'), 
           this._getParamValueOrDefault(data, 'showBookmarks'), 
           this._getParamValueOrDefault(data, 'keepScreenOn'), 
-          this._getParamValueOrDefault(data, 'nightMode'));
+          this._getParamValueOrDefault(data, 'nightMode'),
+          this._getParamValueOrDefault(data, 'backup'));
 
         return this.settings;
       }

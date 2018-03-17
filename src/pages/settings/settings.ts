@@ -4,6 +4,8 @@ import { NavController } from 'ionic-angular';
 import { SettingsModel } from '../../models/settings-model';
 import { SettingsService } from '../../providers/settings-service';
 
+import { LoginPage } from '../login/login';
+
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html'
@@ -21,5 +23,10 @@ export class SettingsPage {
 
   ionViewWillLeave() {
     this.settingsService.update(this.settings);
+  }
+
+  enableBackup() {
+    this.navCtrl.push(LoginPage, {
+    });
   }
 }

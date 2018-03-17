@@ -46,5 +46,23 @@
       </ion-label>
       <ion-toggle [(ngModel)]="settings.nightMode"></ion-toggle>
     </ion-item>
+    <ion-item *ngIf="!settings.backup">
+      <ion-label text-wrap>
+        Habilitar backup
+        <p>Permite a recuperação dos seus dados quando mudar de dispositivo</p>
+      </ion-label>
+      <ion-toggle (ionChange)="enableBackup()"></ion-toggle>
+    </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer *ngIf="settings.backup">
+  <ion-toolbar color="light">
+    <p>Conectado como cirillo.ferreira@gmail.com</p>
+    <ion-buttons end>
+      <button ion-button icon-right>
+        Sair
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

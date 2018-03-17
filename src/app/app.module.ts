@@ -19,6 +19,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Toast } from '@ionic-native/toast';
 
+import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { BooksPage } from '../pages/books/books';
 import { BookPage } from '../pages/book/book';
@@ -33,9 +34,15 @@ import { PopOverPage } from '../pages/popover/popover';
 
 import { HighlightPipe } from '../pipes/highlight-pipe';
 
+import Amplify from 'aws-amplify';
+import aws_exports from '../assets/aws-exports';
+
+Amplify.configure(aws_exports);
+
 @NgModule({
   declarations: [
     MyApp,
+    LoginPage,
     HomePage,
     BooksPage,
     BookPage,
@@ -59,6 +66,7 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    LoginPage,
     HomePage,
     BooksPage,
     BookPage,

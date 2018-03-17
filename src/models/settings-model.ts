@@ -13,7 +13,7 @@ export class SettingsModel {
     new Font('times-new-roman', 'Times New Roman'),
   ];
 
-  constructor(public textsize?: number, public fontname?: string, public showPassageTitle?: boolean, public showBookmarks?: boolean, public keepScreenOn?: boolean, public nightMode?: boolean) {
+  constructor(public textsize?: number, public fontname?: string, public showPassageTitle?: boolean, public showBookmarks?: boolean, public keepScreenOn?: boolean, public nightMode?: boolean, backup?: boolean) {
   }
 
 }
