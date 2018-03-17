@@ -25,6 +25,7 @@ import { BookPage } from '../pages/book/book';
 import { ChaptersPage } from '../pages/chapters/chapters';
 import { SearchPage } from '../pages/search/search';
 import { InteractionPage } from '../pages/interaction/interaction';
+import { InteractionPartialPage } from '../pages/interaction-partial/interaction-partial';
 import { InteractionMorePage } from '../pages/interaction-more/interaction-more';
 import { BookmarkListsPage } from '../pages/bookmark-lists/bookmark-lists';
 import { BookmarksPage } from '../pages/bookmarks/bookmarks';
@@ -32,6 +33,11 @@ import { SettingsPage } from '../pages/settings/settings';
 import { PopOverPage } from '../pages/popover/popover';
 
 import { HighlightPipe } from '../pipes/highlight-pipe';
+
+import Amplify from 'aws-amplify';
+import aws_exports from '../assets/aws-exports';
+
+Amplify.configure(aws_exports);
 
 @NgModule({
   declarations: [
@@ -42,6 +48,7 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
     ChaptersPage,
     SearchPage,
     InteractionPage,
+    InteractionPartialPage,
     InteractionMorePage,
     BookmarkListsPage,
     BookmarksPage,
@@ -65,6 +72,7 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
     ChaptersPage,
     SearchPage,
     InteractionPage,
+    InteractionPartialPage,
     InteractionMorePage,
     BookmarkListsPage,
     BookmarksPage,
@@ -87,3 +95,6 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
   ]
 })
 export class AppModule {}
+
+declare var AWS;
+AWS.config.customUserAgent = AWS.config.customUserAgent + ' Ionic';

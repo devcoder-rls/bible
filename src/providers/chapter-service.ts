@@ -25,7 +25,7 @@ export class ChapterService {
             let verses: Array<VerseModel> = [];
 
             for (let v of p.verses)
-              verses.push(new VerseModel(v.number, v.text, []));
+              verses.push(new VerseModel(Number(v.number), v.text, []));
 
             passages.push(new PassageModel(p.text, verses));
           }

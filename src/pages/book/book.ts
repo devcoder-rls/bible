@@ -16,7 +16,7 @@ import { SettingsModel }  from '../../models/settings-model'
 import { BooksPage } from '../books/books';
 import { ChaptersPage } from '../chapters/chapters';
 import { SearchPage } from '../search/search';
-import { InteractionPage } from '../interaction/interaction';
+import { InteractionPartialPage } from '../interaction-partial/interaction-partial';
 import { PopOverPage } from '../popover/popover';
 
 @Component({
@@ -197,15 +197,17 @@ export class BookPage {
   }
 
   openInteractivity() {
-    let modal = this.modalCtrl.create(InteractionPage, { 
+    let modal = this.modalCtrl.create(InteractionPartialPage, { 
       book: this.book,
       chapterNumber: this.currentChapterNumber,
-      verses: this.selectedVerses.getVerses() 
+      verses: this.selectedVerses 
+    }, {cssClass: 'partial-modal'});
+
+    modal.onDidDismiss(data => {
+      this._clearAllVerseSelection();
     });
 
     modal.present();
-
-    this._clearAllVerseSelection();
   }
 
   share() {
