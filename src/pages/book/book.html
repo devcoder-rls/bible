@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
+    <ion-title [hidden]="showActions">
       <div class="book-title" (click)="openBooks()">
         {{book.shortName}}
         <ion-icon name="ios-arrow-down"></ion-icon>
@@ -10,12 +10,31 @@
         <ion-icon name="ios-arrow-down"></ion-icon>
       </div>
     </ion-title>
-    <ion-buttons end>
+    <ion-buttons end [hidden]="showActions">
       <button ion-button icon-only (click)="openSearchBar()">
         <ion-icon name="search"></ion-icon>
       </button>
       <button ion-button icon-only (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+    
+    <ion-buttons left [hidden]="!showActions" style="padding: 0 6px; margin: 0 6px">
+      <button ion-button icon-only (click)="clearAllVerseSelection()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title [hidden]="!showActions">
+      <span *ngIf="selectedVerses.length() == 1">1 versículo</span>
+      <span *ngIf="selectedVerses.length() > 1">{{selectedVerses.length()}} versículos</span>
+    </ion-title>
+    <ion-buttons end [hidden]="!showActions">
+      <button ion-button icon-only (click)="copy()">
+        <ion-icon name="copy"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="share()">
+        <ion-icon name="share" ios="ios-share-outline"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -50,6 +69,5 @@
 
   <ion-fab bottom [hidden]="!showActions" [@showactions]="stateActions">
     <button ion-fab (click)="addToBookmark()" color="secondary"><ion-icon name="bookmark" ios="ios-bookmark-outline"></ion-icon></button>
-    <button ion-fab (click)="share()" color="secondary"><ion-icon name="share" ios="ios-share-outline"></ion-icon></button>
   </ion-fab>
 </ion-content>

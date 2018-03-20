@@ -10,6 +10,7 @@ import { LastBookVisitedService }  from '../providers/last-book-visited-service'
 import { SettingsService } from '../providers/settings-service';
 
 import { AppRate } from '@ionic-native/app-rate';
+import { Clipboard } from '@ionic-native/clipboard';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 import { HeaderColor } from '@ionic-native/header-color';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -73,6 +74,7 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
   ],
   providers: [
     AppRate,
+    Clipboard,
     DeviceFeedback,
     HeaderColor,
     InAppBrowser,
