@@ -216,7 +216,7 @@ export class BookPage {
     }, {cssClass: 'partial-modal'});
 
     modal.onDidDismiss(data => {
-      this._clearAllVerseSelection();
+      this.clearAllVerseSelection();
     });
     
     modal.present();

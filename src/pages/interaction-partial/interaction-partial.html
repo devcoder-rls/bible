@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{book.shortName}}, {{chapterNumber}} : {{verses.formatVersesNumbers()}}</ion-title>
     <ion-buttons start>
-      <button ion-button (click)="dismiss()">
+      <button ion-button icon-only (click)="dismiss()">
         <ion-icon hideWhen="ios" name="md-close" ></ion-icon>
         <span showWhen="ios">Cancelar</span>
       </button>
@@ -14,7 +14,17 @@
 
   <ion-spinner color="primary" *ngIf="loading"></ion-spinner>
 
-  <ion-list no-lines>    
+  <ion-grid class="no-item" *ngIf="(entities | async)?.length == 0">
+    <ion-row>
+      <ion-col text-center>
+        <ion-icon name="albums"></ion-icon>
+        <p *ngIf="verses.length() == 1">Nenhum item relacionado a esse versículo</p>
+        <p *ngIf="verses.length() > 1">Nenhum item relacionado a esses versículos</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list no-lines *ngIf="(entities | async)?.length > 0">
     <ion-item *ngFor="let entity of entities | async">
       <ion-thumbnail item-start (click)="openUrl(entity.uri)">
         <img src="{{entity.image}}">

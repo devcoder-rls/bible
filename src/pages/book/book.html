@@ -67,6 +67,7 @@
   </ion-slides>
 
   <ion-fab bottom [hidden]="!showActions" [@showactions]="stateActions">
-    <button ion-fab (click)="addToBookmark()" color="secondary"><ion-icon name="bookmark" ios="ios-bookmark-outline"></ion-icon></button>
+    <button ion-fab color="secondary" (click)="addToBookmark()"><ion-icon name="bookmark" ios="ios-bookmark-outline"></ion-icon></button>
+    <button ion-fab color="secondary" (click)="openInteractivity()"><ion-icon name="open" ios="ios-open-outline"></ion-icon></button>
   </ion-fab>
 </ion-content>
