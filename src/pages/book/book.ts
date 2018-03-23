@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { NavController, NavParams, Slides, AlertController, PopoverController, ModalController } from 'ionic-angular';
+import { Clipboard } from '@ionic-native/clipboard';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 
@@ -52,7 +53,7 @@ export class BookPage {
   showActions: boolean = false;
   stateActions: string = 'hide';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, public chapterService: ChapterService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private clipboard: Clipboard, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, public chapterService: ChapterService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
     this._setCurrentBook(navParams.get('book'), navParams.get('chapterNumber'));
     this.initialVerserNumberVisible = navParams.get('verseNumber');
 
@@ -92,7 +93,7 @@ export class BookPage {
       currentBookId: this.book.id
     });
 
-    this._clearAllVerseSelection();
+    this.clearAllVerseSelection();
   }
 
   openChapters() {
@@ -102,13 +103,13 @@ export class BookPage {
       book: this.book
     });
 
-    this._clearAllVerseSelection();
+    this.clearAllVerseSelection();
   }
 
   openSearchBar() {
     this.navCtrl.push(SearchPage);
 
-    this._clearAllVerseSelection();
+    this.clearAllVerseSelection();
   }
 
   presentPopover(event) {
@@ -156,6 +157,16 @@ export class BookPage {
       this._unlockSlides();
   }
 
+  clearAllVerseSelection() {
+    for (let verse of this.selectedVerses.getVerses())
+      this._clearVerseSelection(verse);
+
+    this.showActions = false;
+    this.stateActions = 'hide';
+
+    this._unlockSlides();
+  }
+
   addToBookmark() {
     this.bookmarkService.getLists().then(lists =>
     {
@@ -180,11 +191,12 @@ export class BookPage {
               this.bookmarkService.addBookmark(
                 listId, this.chapters[this.currentChapterNumber-1], this.selectedVerses.getVerses())
               .then(() => {
-                this._clearAllVerseSelection();
+                this.clearAllVerseSelection();
 
                 setTimeout(() => {
-                  // Reload current chapter
-                  this._loadCurrentChapter();
+                  // Reload current chapter, mantain current position
+                  let yOffset = this._getCurrentOffsetTop();
+                  this._loadCurrentChapter(yOffset);
                 }, 500);
               });
             }
@@ -206,8 +218,23 @@ export class BookPage {
     modal.onDidDismiss(data => {
       this._clearAllVerseSelection();
     });
-
+    
     modal.present();
+  }
+
+  copy() {
+    if (this.selectedVerses.length() == 0)
+      return;
+
+    let message = this.book.name + " " + this.currentChapterNumber + "\n\n";
+
+    message += this.selectedVerses.getVerses()
+      .map(function(verse) { return "(" + verse.number + ") " + verse.text; })
+      .join('\n');
+
+    this.clipboard.copy(message);
+
+    this.clearAllVerseSelection();
   }
 
   share() {
@@ -230,7 +257,7 @@ export class BookPage {
 
     this.socialSharing.shareWithOptions(options)
       .then((result) => {
-        this._clearAllVerseSelection();
+        this.clearAllVerseSelection();
       });
   }
 
@@ -241,11 +268,11 @@ export class BookPage {
     this.lastBookVisitedService.setLastBook(book, chapterNumber);
   }
 
-  _loadCurrentChapter() {
+  _loadCurrentChapter(offsetTopInit?: number) {
     if (this.currentChapterNumber == null)
       throw new Error('Current chapter number not defined.');
 
-    console.log('_loadCurrentChapter', this.currentChapterNumber);
+    console.log('_loadCurrentChapter', this.currentChapterNumber, offsetTopInit);
 
     this.chapterService.get(this.book, this.currentChapterNumber)
     .subscribe(
@@ -255,18 +282,14 @@ export class BookPage {
       },
       err => console.log(err),
       () => {
-        // Scroll to verse indicated
-        if (this.initialVerserNumberVisible) {
-          setTimeout(() => {
-            let verseId = "c" + this.currentChapterNumber + "v" + this.initialVerserNumberVisible;
-
-            let yOffset = document.getElementById(verseId).offsetTop;
-
-            let chapterId = "c" + this.currentChapterNumber;
-            let targetSlide = document.getElementById(chapterId).childNodes[0];
-            (<Element>targetSlide).scrollTop = yOffset;
-          }, 0);
-        }
+        setTimeout(() => {
+          // Scroll to position indicated
+          if (offsetTopInit > 0) {
+            this._setOffsetTop(offsetTopInit);
+          } else if (this.initialVerserNumberVisible > 0) {
+            this._setOffsetTopFromVerse(this.initialVerserNumberVisible);
+          }
+        }, 0);
       });
   }
 
@@ -315,20 +338,29 @@ export class BookPage {
     this.slider.lockSwipes(false);
   }
 
-  _clearAllVerseSelection() {
-    for (let verse of this.selectedVerses.getVerses())
-      this._clearVerseSelection(verse);
-
-    this.showActions = false;
-    this.stateActions = 'hide';
-
-    this._unlockSlides();
-  }
-
   _clearVerseSelection(verse) {
     let verseElement: HTMLElement = this.selectedVerses.get(verse);
     verseElement.classList.remove("item-selected")
 
     this.selectedVerses.removeVerse(verse);
+  }
+
+  _getCurrentOffsetTop() {
+    let chapterId = "c" + this.currentChapterNumber;
+    let targetSlide = document.getElementById(chapterId).childNodes[0];
+    return (<Element>targetSlide).scrollTop;
+  }
+
+  _setOffsetTop(offsetTop: number) {
+    let chapterId = "c" + this.currentChapterNumber;
+    let targetSlide = document.getElementById(chapterId).childNodes[0];
+    (<Element>targetSlide).scrollTop = offsetTop;
+  }
+
+  _setOffsetTopFromVerse(verseNumber: number) {
+    let verseId = "c" + this.currentChapterNumber + "v" + verseNumber;
+    let offsetTop = document.getElementById(verseId).offsetTop;
+
+    this._setOffsetTop(offsetTop);
   }
 }

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
+    <ion-title [hidden]="showActions">
       <div class="book-title" (click)="openBooks()">
         {{book.shortName}}
         <ion-icon name="ios-arrow-down"></ion-icon>
@@ -10,7 +10,7 @@
         <ion-icon name="ios-arrow-down"></ion-icon>
       </div>
     </ion-title>
-    <ion-buttons end>
+    <ion-buttons end [hidden]="showActions">
       <button ion-button icon-only (click)="openSearchBar()">
         <ion-icon name="search"></ion-icon>
       </button>
@@ -18,10 +18,28 @@
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
+    
+    <ion-buttons left [hidden]="!showActions" style="padding: 0 6px; margin: 0 6px">
+      <button ion-button icon-only (click)="clearAllVerseSelection()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title [hidden]="!showActions">
+      <span>{{selectedVerses.length()}}</span>
+    </ion-title>
+    <ion-buttons end [hidden]="!showActions">
+      <button ion-button icon-only (click)="copy()">
+        <ion-icon name="copy" ios="ios-copy-outline"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="share()">
+        <ion-icon name="share" ios="ios-share-outline"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="fontname-{{settings.fontname}} textsize-{{settings.textsize}}">
   <ion-slides #chapterSlider (ionSlideDidChange)="onChapterChanged()" [initialSlide]="initialSlide">
 
     <ion-slide id="c{{chapter.number}}" *ngFor="let chapter of chapters">
@@ -31,7 +49,7 @@
       </div>
 
       <ion-list no-lines>
-        <div class="textsize-{{settings.textsize}}" *ngFor="let passage of chapter.passages">
+        <div *ngFor="let passage of chapter.passages">
           <p padding class="passage" *ngIf="settings.showPassageTitle && passage.name != null">{{passage.name}}</p>
           <ion-item text-wrap id="c{{chapter.number}}v{{verse.number}}" *ngFor="let verse of passage.verses" (click)="onVerseHold(verse, $event)">
             <span class="verse">{{verse.number}}. </span>
@@ -50,7 +68,5 @@
 
   <ion-fab bottom [hidden]="!showActions" [@showactions]="stateActions">
     <button ion-fab (click)="addToBookmark()" color="secondary"><ion-icon name="bookmark" ios="ios-bookmark-outline"></ion-icon></button>
-    <button ion-fab outline (click)="openInteractivity()" color="secondary"><ion-icon name="open" ios="ios-open-outline"></ion-icon></button>
-    <button ion-fab (click)="share()" color="secondary"><ion-icon name="share" ios="ios-share-outline"></ion-icon></button>
   </ion-fab>
 </ion-content>

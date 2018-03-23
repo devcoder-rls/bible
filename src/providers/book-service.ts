@@ -16,7 +16,7 @@ export class BookService {
       let books: Array<BookModel> = [];
 
       for (var b of res['books'])
-        books.push(new BookModel(b.id, b.name, b.shortName, b.chapterAmount));
+        books.push(new BookModel(b.id, b.name, b.shortName, b.abbr, b.chapterAmount));
 
       return books;
     });
@@ -27,7 +27,7 @@ export class BookService {
     .map(res => {
       for (var b of res['books']) {
         if ( b.id == bookId ) {
-          return new BookModel(b.id, b.name, b.shortName, b.chapterAmount);
+          return new BookModel(b.id, b.name, b.shortName, b.abbr, b.chapterAmount);
         }
       }
 

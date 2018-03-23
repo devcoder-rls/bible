@@ -18,9 +18,12 @@ page-book {
     font-size: 1.8rem;
   }
 
+  ion-buttons * {
+    padding: 0 7px;
+  }
+
   .chapter-header {
     margin-top: 30px;
-    font-family: "Roboto Slab";
 
     h2 {
       text-align: center;
@@ -45,12 +48,15 @@ page-book {
   }
 
   .item, .item .label {
-    font-family: "Roboto Slab";
     font-weight: 300;
   }
 
+  // Fix a bug in text-wrap that, sometimes, show ellipsis in verse
+  [text-wrap] ion-label {
+    text-overflow: clip !important;
+  }
+
   .passage {
-    font-family: "Roboto Slab";
     padding: 0 20 0 20px !important;
   }
 
@@ -59,68 +65,124 @@ page-book {
     font-weight: bold;
   }
 
+  /* Font options */
+  
+  .fontname-roboto {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: "Roboto Slab";
+    }
+  }
+
+  .fontname-arial {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: Arial,Helvetica Neue,Helvetica,sans-serif; 
+    }
+  }
+
+  .fontname-palatino {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: "Palatino"; 
+    }
+  }
+
+  .fontname-times-new-roman {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif;
+    }
+  }
+
+  .fontname-helvetica {
+    .chapter-header, .item, .item .label, .passage {
+      font-family: "Helvetica Neue";
+    }
+  }
+
+  /* Textsize options */
+
   .textsize-10 {
-    .passage, .item, .item .label {
+    .passage { font-size: 11pt; }
+
+    .item, .item .label {
       font-size: 10pt;
     }
   }
 
   .textsize-11 {
-    .passage, .item, .item .label {
+    .passage { font-size: 12pt; }
+
+    .item, .item .label {
       font-size: 11pt;
     }
   }
 
   .textsize-12 {
-    .passage, .item, .item .label {
+    .passage { font-size: 13pt; }
+
+    .item, .item .label {
       font-size: 12pt;
     }
   }
 
   .textsize-13 {
-    .passage, .item, .item .label {
+    .passage { font-size: 14pt; }
+
+    .item, .item .label {
       font-size: 13pt;
     }
   }
 
   .textsize-14 {
-    .passage, .item, .item .label {
+    .passage { font-size: 15pt; }
+
+    .item, .item .label {
       font-size: 14pt;
     }
   }
 
   .textsize-15 {
-    .passage, .item, .item .label {
+    .passage { font-size: 16pt; }
+
+    .item, .item .label {
       font-size: 15pt;
     }
   }
 
   .textsize-16 {
-    .passage, .item, .item .label {
+    .passage { font-size: 17pt; }
+
+    .item, .item .label {
       font-size: 16pt;
     }
   }
 
   .textsize-17 {
-    .passage, .item, .item .label {
+    .passage { font-size: 18pt; }
+
+    .item, .item .label {
       font-size: 17pt;
     }
   }
 
   .textsize-18 {
-    .passage, .item, .item .label {
+    .passage { font-size: 19pt; }
+
+    .item, .item .label {
       font-size: 18pt;
     }
   }
 
   .textsize-19 {
-    .passage, .item, .item .label {
+    .passage { font-size: 20pt; }
+
+    .item, .item .label {
       font-size: 19pt;
     }
   }
 
   .textsize-20 {
-    .passage, .item, .item .label {
+    .passage { font-size: 21pt; }
+
+    .item, .item .label {
       font-size: 20pt;
     }
   }

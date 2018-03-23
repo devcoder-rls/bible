@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.mobilebibleapp.bible" version="0.4.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.mobilebibleapp.bible" version="0.4.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Bíblia Sagrada</name>
     <description>Bíblia Sagrada</description>
     <author email="mobilebibleapp@gmail.com" href="http://mobilebibleapp.com/">Mobile Bible</author>
@@ -77,18 +77,19 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-    <engine name="android" spec="^6.2.3" />
     <plugin name="bible-plugin-search" spec="C:\Users\cirillor\Desktop\Projetos\bible-plugin-search" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-insomnia" spec="^4.3.0" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.3" />
-    <plugin name="cordova-plugin-velda-devicefeedback" spec="~0.0.2" />
+    <plugin name="cordova-plugin-velda-devicefeedback" spec="^0.0.2" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.2" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
-    <plugin name="cordova-plugin-x-toast" spec="~2.6.0" />
+    <plugin name="cordova-plugin-x-toast" spec="^2.6.0" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="cordova-plugin-apprate" spec="^1.3.0" />
     <plugin name="cordova-plugin-headercolor" spec="^1.0.0" />
+    <engine name="android" spec="^7.0.0" />
+    <plugin name="cordova-clipboard" spec="^1.1.1" />
 </widget>

@@ -31,6 +31,6 @@ export class LastBookVisitedService {
   }
 
   _getFirstBook() {
-    return new LastBookVisitedModel(new BookModel('genesis', 'Gênesis', 'Gênesis', 50), 1);
+    return new LastBookVisitedModel(new BookModel('genesis', 'Gênesis', 'Gênesis', 'Gn', 50), 1);
   }
 }
