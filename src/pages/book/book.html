@@ -26,12 +26,11 @@
     </ion-buttons>
 
     <ion-title [hidden]="!showActions">
-      <span *ngIf="selectedVerses.length() == 1">1 versículo</span>
-      <span *ngIf="selectedVerses.length() > 1">{{selectedVerses.length()}} versículos</span>
+      <span>{{selectedVerses.length()}}</span>
     </ion-title>
     <ion-buttons end [hidden]="!showActions">
       <button ion-button icon-only (click)="copy()">
-        <ion-icon name="copy"></ion-icon>
+        <ion-icon name="copy" ios="ios-copy-outline"></ion-icon>
       </button>
       <button ion-button icon-only (click)="share()">
         <ion-icon name="share" ios="ios-share-outline"></ion-icon>
