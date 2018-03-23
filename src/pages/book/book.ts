@@ -17,7 +17,7 @@ import { SettingsModel }  from '../../models/settings-model'
 import { BooksPage } from '../books/books';
 import { ChaptersPage } from '../chapters/chapters';
 import { SearchPage } from '../search/search';
-import { InteractionPage } from '../interaction/interaction';
+import { InteractionPartialPage } from '../interaction-partial/interaction-partial';
 import { PopOverPage } from '../popover/popover';
 
 @Component({
@@ -89,7 +89,9 @@ export class BookPage {
   openBooks() {
     this.deviceFeedback.acoustic();
 
-    this.navCtrl.push(BooksPage, {"currentBookId": this.book.id});
+    this.navCtrl.push(BooksPage, {
+      currentBookId: this.book.id
+    });
 
     this.clearAllVerseSelection();
   }
@@ -207,10 +209,17 @@ export class BookPage {
   }
 
   openInteractivity() {
-    let modal = this.modalCtrl.create(InteractionPage, { userId: 8675309 });
-    modal.present();
+    let modal = this.modalCtrl.create(InteractionPartialPage, { 
+      book: this.book,
+      chapterNumber: this.currentChapterNumber,
+      verses: this.selectedVerses 
+    }, {cssClass: 'partial-modal'});
 
-    this.clearAllVerseSelection();
+    modal.onDidDismiss(data => {
+      this._clearAllVerseSelection();
+    });
+    
+    modal.present();
   }
 
   copy() {
