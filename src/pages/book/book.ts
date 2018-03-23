@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { NavController, NavParams, Slides, AlertController, PopoverController, ModalController } from 'ionic-angular';
+import { Clipboard } from '@ionic-native/clipboard';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 
@@ -52,7 +53,7 @@ export class BookPage {
   showActions: boolean = false;
   stateActions: string = 'hide';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, public chapterService: ChapterService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private clipboard: Clipboard, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, public chapterService: ChapterService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
     this._setCurrentBook(navParams.get('book'), navParams.get('chapterNumber'));
     this.initialVerserNumberVisible = navParams.get('verseNumber');
 
@@ -90,7 +91,7 @@ export class BookPage {
 
     this.navCtrl.push(BooksPage, {"currentBookId": this.book.id});
 
-    this._clearAllVerseSelection();
+    this.clearAllVerseSelection();
   }
 
   openChapters() {
@@ -100,13 +101,13 @@ export class BookPage {
       book: this.book
     });
 
-    this._clearAllVerseSelection();
+    this.clearAllVerseSelection();
   }
 
   openSearchBar() {
     this.navCtrl.push(SearchPage);
 
-    this._clearAllVerseSelection();
+    this.clearAllVerseSelection();
   }
 
   presentPopover(event) {
@@ -154,6 +155,16 @@ export class BookPage {
       this._unlockSlides();
   }
 
+  clearAllVerseSelection() {
+    for (let verse of this.selectedVerses.getVerses())
+      this._clearVerseSelection(verse);
+
+    this.showActions = false;
+    this.stateActions = 'hide';
+
+    this._unlockSlides();
+  }
+
   addToBookmark() {
     this.bookmarkService.getLists().then(lists =>
     {
@@ -178,7 +189,7 @@ export class BookPage {
               this.bookmarkService.addBookmark(
                 listId, this.chapters[this.currentChapterNumber-1], this.selectedVerses.getVerses())
               .then(() => {
-                this._clearAllVerseSelection();
+                this.clearAllVerseSelection();
 
                 setTimeout(() => {
                   // Reload current chapter, mantain current position
@@ -199,7 +210,22 @@ export class BookPage {
     let modal = this.modalCtrl.create(InteractionPage, { userId: 8675309 });
     modal.present();
 
-    this._clearAllVerseSelection();
+    this.clearAllVerseSelection();
+  }
+
+  copy() {
+    if (this.selectedVerses.length() == 0)
+      return;
+
+    let message = this.book.name + " " + this.currentChapterNumber + "\n\n";
+
+    message += this.selectedVerses.getVerses()
+      .map(function(verse) { return "(" + verse.number + ") " + verse.text; })
+      .join('\n');
+
+    this.clipboard.copy(message);
+
+    this.clearAllVerseSelection();
   }
 
   share() {
@@ -222,7 +248,7 @@ export class BookPage {
 
     this.socialSharing.shareWithOptions(options)
       .then((result) => {
-        this._clearAllVerseSelection();
+        this.clearAllVerseSelection();
       });
   }
 
@@ -301,16 +327,6 @@ export class BookPage {
 
   _unlockSlides() {
     this.slider.lockSwipes(false);
-  }
-
-  _clearAllVerseSelection() {
-    for (let verse of this.selectedVerses.getVerses())
-      this._clearVerseSelection(verse);
-
-    this.showActions = false;
-    this.stateActions = 'hide';
-
-    this._unlockSlides();
   }
 
   _clearVerseSelection(verse) {
