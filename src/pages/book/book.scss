@@ -22,6 +22,11 @@ page-book {
     padding: 0 7px;
   }
 
+  // Change default copy icon for MD
+  .bar-button-md[icon-only] ion-icon[name="copy"] {
+    content: url("../assets/icon/copy_md.svg");
+  }
+
   .chapter-header {
     margin-top: 30px;
 
