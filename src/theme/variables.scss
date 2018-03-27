@@ -112,6 +112,11 @@ $font-family-wp-base: "Roboto Slab";
 
 $toolbar-background: color($colors, primary);
 
+ion-nav:not(.night-mode) .toolbar-background {
+  background: linear-gradient(to right, #6ab9d8 0%, color($colors, primary) 70%) !important;
+  background-repeat: repeat-x  !important;
+}
+
 // App Theme
 // --------------------------------------------------
 // Ionic apps can have different themes applied, which can
