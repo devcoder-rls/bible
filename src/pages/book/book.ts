@@ -199,7 +199,8 @@ export class BookPage {
               });
             }
           }
-        ]
+        ],
+        cssClass: this.settings.nightMode ? 'night-mode' : ''
       });
 
       prompt.present();

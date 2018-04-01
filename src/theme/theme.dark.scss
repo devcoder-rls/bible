@@ -1,12 +1,12 @@
 .night-mode {
   .toolbar-background {
-    background-color: color($night-colors, primary) !important; 
+    background-color: color($night-colors, primary) !important;
   }
 
-  ion-content {
+  ion-content, .alert-wrapper {
     background-color: #303030 !important;
 
-    * {
+    *:not(.item-icon) {
       color: #FFFFFF !important;
     }
 
@@ -14,9 +14,9 @@
       background-color: inherit;
     }
 
-    ion-slides .item-selected, 
+    ion-slides .item-selected,
     ion-fab button {
-      background-color: color($night-colors, secondary) !important; 
+      background-color: color($night-colors, secondary) !important;
     }
   }
 
