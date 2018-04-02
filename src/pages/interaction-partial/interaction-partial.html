@@ -14,6 +14,15 @@
 
   <ion-spinner color="primary" *ngIf="loading"></ion-spinner>
 
+  <ion-grid class="no-entities" *ngIf="(entities | async)?.length == 0">
+    <ion-row>
+      <ion-col text-center>
+        <ion-icon name="albums"></ion-icon>
+        <p>Nenhum item relacionado foi encontrado</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <ion-list no-lines>    
     <ion-item *ngFor="let entity of entities | async">
       <ion-thumbnail item-start (click)="openUrl(entity.uri)">
