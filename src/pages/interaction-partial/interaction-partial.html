@@ -17,7 +17,7 @@
   <ion-list no-lines>    
     <ion-item *ngFor="let entity of entities | async">
       <ion-thumbnail item-start (click)="openUrl(entity.uri)">
-        <img src="{{entity.image}}">
+        <img src="{{entity.image || '../assets/icon/wikipedia-logo.png'}}">
       </ion-thumbnail>      
       <h2 (click)="openUrl(entity.uri)">{{entity.label}}</h2>
       <p *ngIf="needShowSpot(entity)">relacionado à "{{entity.spot}}"</p>
