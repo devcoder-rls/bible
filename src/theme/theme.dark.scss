@@ -3,17 +3,21 @@
     background-color: color($night-colors, primary) !important; 
   }
 
-  .content, .item {
+  ion-content {
     background-color: #303030 !important;
-    color: #FFF !important;
-  }
 
-  .content .item p {
-    color: #FFF !important;
-  }
+    * {
+      color: #FFFFFF !important;
+    }
 
-  .content ion-slides .item-selected, ion-fab button {
-    background-color: color($night-colors, secondary) !important; 
+    .item {
+      background-color: inherit;
+    }
+
+    ion-slides .item-selected, 
+    ion-fab button {
+      background-color: color($night-colors, secondary) !important; 
+    }
   }
 
   ion-spinner * {

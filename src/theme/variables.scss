@@ -1,35 +1,47 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+
 @import "ionic.globals";
 
-$custom-font-path: "../assets/fonts" !default;
+@font-face {
+  font-family: "Helvetica Neue";
+  font-style: normal;
+  src: url("#{$font-path}/helvetica-neue.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Palatino";
+  font-style: normal;
+  src: url("#{$font-path}/palatino.ttf") format("truetype");
+}
 
 @font-face {
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 300;
-  src: local("RobotoSlab Light webfont"), local("Roboto-Slab-Light"), url("#{$custom-font-path}/roboto-slab-light-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-light-webfont.ttf") format("truetype");
+  src: local("RobotoSlab Light webfont"), local("Roboto-Slab-Light"), url("#{$font-path}/roboto-slab-light-webfont.woff") format("woff"), url("#{$font-path}/roboto-slab-light-webfont.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 400;
-  src: local("RobotoSlab Regular webfont"), local("Roboto-Slab-Regular"), url("#{$custom-font-path}/roboto-slab-regular-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-regular-webfont.ttf") format("truetype");
+  src: local("RobotoSlab Regular webfont"), local("Roboto-Slab-Regular"), url("#{$font-path}/roboto-slab-regular-webfont.woff") format("woff"), url("#{$font-path}/roboto-slab-regular-webfont.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 500;
-  src: local("RobotoSlab Regular webfont"), local("Roboto-Slab-Regular"), url("#{$custom-font-path}/roboto-slab-regular-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-regular-webfont.ttf") format("truetype");
+  src: local("RobotoSlab Regular webfont"), local("Roboto-Slab-Regular"), url("#{$font-path}/roboto-slab-regular-webfont.woff") format("woff"), url("#{$font-path}/roboto-slab-regular-webfont.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 700;
-  src: local("RobotoSlab Bold webfont"), local("Roboto-Slab-Bold"), url("#{$custom-font-path}/roboto-slab-bold-webfont.woff") format("woff"), url("#{$custom-font-path}/roboto-slab-bold-webfont.ttf") format("truetype");
+  src: local("RobotoSlab Bold webfont"), local("Roboto-Slab-Bold"), url("#{$font-path}/roboto-slab-bold-webfont.woff") format("woff"), url("#{$font-path}/roboto-slab-bold-webfont.ttf") format("truetype");
 }
 
 // Shared Variables
@@ -83,6 +95,8 @@ $font-family-ios-base: "Roboto Slab";
 
 $font-family-md-base: "Roboto Slab";
 
+$label-md-text-color: #000;
+
 $segment-button-md-border-bottom-color: color($colors, primary);
 $segment-button-md-text-color-activated: #FFF;
 $segment-button-md-border-color-activated: #FFF;
@@ -97,6 +111,11 @@ $font-family-wp-base: "Roboto Slab";
 // --------------------------------------------------
 
 $toolbar-background: color($colors, primary);
+
+ion-nav:not(.night-mode) .toolbar-background {
+  background: linear-gradient(to right, #6ab9d8 0%, color($colors, primary) 70%) !important;
+  background-repeat: repeat-x  !important;
+}
 
 // App Theme
 // --------------------------------------------------
