@@ -46,5 +46,13 @@
       </ion-label>
       <ion-toggle [(ngModel)]="settings.nightMode"></ion-toggle>
     </ion-item>
+    <ion-item>
+      <ion-label text-wrap>
+        Interação
+        <ion-badge item-end>beta</ion-badge>
+        <p>Busca em cada versículo selecionado informações contextuais</p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="settings.enableInteration"></ion-toggle>
+    </ion-item>
   </ion-list>
 </ion-content>

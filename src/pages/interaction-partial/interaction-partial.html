@@ -2,8 +2,8 @@
   <ion-toolbar>
     <ion-title>{{book.shortName}}, {{chapterNumber}} : {{verses.formatVersesNumbers()}}</ion-title>
     <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <ion-icon hideWhen="ios" name="md-close" ></ion-icon>
+      <button ion-button icon-only (click)="dismiss()">
+        <ion-icon hideWhen="ios" name="md-close"></ion-icon>
         <span showWhen="ios">Cancelar</span>
       </button>
     </ion-buttons>
@@ -17,16 +17,15 @@
   <ion-grid class="no-entities" *ngIf="(entities | async)?.length == 0">
     <ion-row>
       <ion-col text-center>
-        <ion-icon name="albums"></ion-icon>
         <p>Nenhum item relacionado foi encontrado</p>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-list no-lines>    
+  <ion-list no-lines *ngIf="(entities | async)?.length > 0">
     <ion-item *ngFor="let entity of entities | async">
       <ion-thumbnail item-start (click)="openUrl(entity.uri)">
-        <img src="{{entity.image || '../assets/icon/wikipedia-logo.png'}}">
+        <img src="{{entity.image || 'assets/icon/wikipedia-logo.png'}}">
       </ion-thumbnail>      
       <h2 (click)="openUrl(entity.uri)">{{entity.label}}</h2>
       <p *ngIf="needShowSpot(entity)">relacionado à "{{entity.spot}}"</p>

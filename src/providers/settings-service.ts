@@ -16,6 +16,8 @@ export class SettingsService {
     'showBookmarks': true, 
     'keepScreenOn': false, 
     'nightMode': false
+    'nightMode': false,
+    'enableInteration': false
   }
 
   private settings: SettingsModel;
@@ -55,7 +57,8 @@ export class SettingsService {
           this._getParamValueOrDefault(data, 'showPassageTitle'), 
           this._getParamValueOrDefault(data, 'showBookmarks'), 
           this._getParamValueOrDefault(data, 'keepScreenOn'), 
-          this._getParamValueOrDefault(data, 'nightMode'));
+          this._getParamValueOrDefault(data, 'nightMode'),
+          this._getParamValueOrDefault(data, 'enableInteration'));
 
         return this.settings;
       }

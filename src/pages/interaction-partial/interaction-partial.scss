@@ -29,12 +29,9 @@ page-interaction-partial {
     height: 100%;
     justify-content: center;
 
-    ion-icon {
-      font-size: 90px;
-    }
-
-    ion-icon, p {
-        color: #CCCCCC;
+    p {
+      font-size: 20px;
+      color: #CCCCCC;
     }
   }
 }
@@ -43,5 +40,5 @@ ion-modal.partial-modal {
   // transparent black background overlay
   background-color: rgba(0, 0, 0, .5) !important;
   transition: opacity .25s ease-in-out;
-  padding-top: 100%;
+  padding-top: 90%;
 }
