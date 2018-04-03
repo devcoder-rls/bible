@@ -1,12 +1,12 @@
 <ion-header>
- <ion-toolbar>
-    <ion-title>Apocalipse, 7:9 a 17</ion-title>
+  <ion-toolbar>
+    <ion-title>{{book.shortName}}, {{chapterNumber}} : {{verses.formatVersesNumbers()}}</ion-title>
 
     <ion-buttons start>
       <button ion-button hideWhen="ios">
         <ion-icon name="share"></ion-icon>
       </button>
-      <button ion-button  (click)="dismiss()">
+      <button ion-button (click)="dismiss()">
         <ion-icon hideWhen="ios" name="md-close" ></ion-icon>
         <span showWhen="ios">Cancelar</span>
       </button>
@@ -22,26 +22,48 @@
 </ion-header>
 
 <ion-content>
-  <div padding style="font-size: 1.4rem; line-height: 1.5;">
-    Na Visão dos Glorificados a multidão é inumerável. Ipso facto, os salvos não serão apenas 144 mil, como alguns querem impingir-nos e, ao mesmo tempo, de certa forma, acusando (percebendo ou não) Deus de impiedoso, porquanto cria bilhões de Espíritos para redimir somente uma parte ínfima deles. Raciocínios tão excludentes semelhantes a esse são dos fatores principais para o crescimento da quantidade de ateus, em nosso país e no exterior. Já lhes afirmei, há tantos anos, que a falência religiosa tem promovido o ateísmo. Mentes racionais não são propensas a aceitar conclusões — em termos humanos — ilógicas, quanto mais aquelas, mesmo que impensadamente, carregadas de crueldade.
-  </div>
 
-  <p style="padding-left: 16px; margin: 5px 0px; font-size: 2.2rem;">Descubra mais</p>
+  <img src="http://misericordia.org.br/site/wp-content/uploads/2017/12/festa-de-sao-joao-evangelista.jpg"/>
 
-  <ion-slides [slidesPerView]="slidesPerView" spaceBetween="15" style="padding-left: 16px; height: 137px">
-    <ion-slide>
-      <img src="assets/icon/youtube2.jpg" (click)="openUrl('https://www.youtube.com/watch?v=yQh0axBdmNo')"/>
-    </ion-slide>
-    <ion-slide>
-      <img src="assets/icon/blogpaivanetto2.png" (click)="openUrl('http://www.paivanetto.com/pt/ciencia/questao-de-morte-ou-de-vida')"/>
-    </ion-slide>
-    <ion-slide>
-      <img src="assets/icon/soco.png"/>
-    </ion-slide>
+  <ion-card>
+    <ion-card-header>{{book.name}}, {{chapterNumber}} : {{verses.formatVersesNumbers()}}</ion-card-header>
+    <ion-card-content>
+      Na Visão dos Glorificados a multidão é inumerável. Ipso facto, os salvos não serão apenas 144 mil, como alguns querem impingir-nos e, ao mesmo tempo, de certa forma, acusando (percebendo ou não) Deus de impiedoso, porquanto cria bilhões de Espíritos para redimir somente uma parte ínfima deles. Raciocínios tão excludentes semelhantes a esse são dos fatores principais para o crescimento da quantidade de ateus, em nosso país e no exterior. Já lhes afirmei, há tantos anos, que a falência religiosa tem promovido o ateísmo. Mentes racionais não são propensas a aceitar conclusões — em termos humanos — ilógicas, quanto mais aquelas, mesmo que impensadamente, carregadas de crueldade.
+    </ion-card-content>
+  </ion-card>
 
-    <ion-slide>
-      <button ion-button clear large (click)="openMore()">Mais</button>
-    </ion-slide>
-  </ion-slides>
+  <ion-card>
+    <ion-card-header>Recomendado</ion-card-header>
+      <ion-slides [slidesPerView]="slidesPerView" spaceBetween="5" style="padding-left: 16px; height: 137px">
+        <ion-slide>
+          <img src="assets/icon/youtube2.jpg" (click)="openUrl('https://www.youtube.com/watch?v=yQh0axBdmNo')"/>
+        </ion-slide>
+        <ion-slide>
+          <img src="assets/icon/blogpaivanetto2.png" (click)="openUrl('http://www.paivanetto.com/pt/ciencia/questao-de-morte-ou-de-vida')"/>
+        </ion-slide>
+        <ion-slide>
+          <img src="assets/icon/soco.png"/>
+        </ion-slide>
+        <ion-slide>
+          <button ion-button clear large (click)="openMore()">Mais</button>
+        </ion-slide>
+      </ion-slides>
+  </ion-card>
+
+  <ion-card *ngIf="(entities | async)?.length > 0">
+    <ion-card-header>Descubra mais</ion-card-header>
+    <ion-list no-lines>
+      <ion-item *ngFor="let entity of entities | async">
+        <ion-thumbnail item-start (click)="openUrl(entity.uri)">
+          <img src="{{entity.image}}">
+        </ion-thumbnail>      
+        <h2 (click)="openUrl(entity.uri)">{{entity.label}}</h2>
+        <p *ngIf="needShowSpot(entity)">relacionado à "{{entity.spot}}"</p>
+        <button ion-button clear large item-end>
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
 
 </ion-content>

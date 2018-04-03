@@ -7,14 +7,12 @@ import { NERModel }  from '../../models/ner-model'
 import { InteractionService } from '../../providers/interaction-service';
 import { VersesSelectedService } from '../../providers/verses-selected-service';
 
-import { InteractionMorePage } from '../interaction-more/interaction-more';
-
 @Component({
-  selector: 'page-interaction',
-  templateUrl: 'interaction.html',
+  selector: 'page-interaction-partial',
+  templateUrl: 'interaction-partial.html',
   providers: [InteractionService]
 })
-export class InteractionPage {
+export class InteractionPartialPage {
 
   book: any;
   chapterNumber: number;
@@ -22,14 +20,12 @@ export class InteractionPage {
 
   entities: any;
 
-  slidesPerView: number;
+  loading: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public modalCtrl: ModalController, public plt: Platform, public inappbrowser: InAppBrowser, private deviceFeedback: DeviceFeedback, public interactionService: InteractionService) {
     this.book = navParams.get('book');
     this.chapterNumber = navParams.get('chapterNumber');
     this.verses = navParams.get('verses');
-
-    this.slidesPerView = (plt.isPortrait() && plt.width() < 768 ? 3 : 4);
 
     this._loadData();
   }
@@ -38,13 +34,6 @@ export class InteractionPage {
     this.deviceFeedback.haptic(0);
 
     this.inappbrowser.create(url, '_system');
-  }
-
-  openMore() {
-    this.deviceFeedback.haptic(0);
-    
-    let modal = this.modalCtrl.create(InteractionMorePage);
-    modal.present();
   }
 
   dismiss() {
@@ -57,9 +46,13 @@ export class InteractionPage {
   }
 
   _loadData() {
+    this.loading = true;
+
     let versesNumbers = this.verses.getVerses().map((verse) => verse.number);
 
     this.entities = 
       this.interactionService.get(this.book.id, this.chapterNumber, versesNumbers);
+
+    this.entities.then(() => this.loading = false);
   }
 }
