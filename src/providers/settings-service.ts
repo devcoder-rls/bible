@@ -15,7 +15,6 @@ export class SettingsService {
     'showPassageTitle': true, 
     'showBookmarks': true, 
     'keepScreenOn': false, 
-    'nightMode': false
     'nightMode': false,
     'enableInteration': false
   }
