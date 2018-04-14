@@ -251,7 +251,7 @@ export class BookPage {
 
     let options = {
       message: message,
-      url: 'Para ler esse e outros livros da Bíblia Sagrada, baixe o aplicativo grátis https://goo.gl/nTuD0I',
+      url: 'Para ler esse e outros livros da Bíblia Sagrada, baixe o aplicativo grátis http://bit.ly/mobilebibleapp',
       chooserTitle: 'Escolha um aplicativo'
     };
 
