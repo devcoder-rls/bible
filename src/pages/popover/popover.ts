@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { App, ViewController } from 'ionic-angular';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
+
 import { BookmarkListsPage } from '../bookmark-lists/bookmark-lists';
 import { SettingsPage } from '../settings/settings';
 

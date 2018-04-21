@@ -12,6 +12,7 @@ import { SettingsService } from '../providers/settings-service';
 import { AppRate } from '@ionic-native/app-rate';
 import { Clipboard } from '@ionic-native/clipboard';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
+import { EmailComposer } from '@ionic-native/email-composer';
 import { HeaderColor } from '@ionic-native/header-color';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Insomnia } from '@ionic-native/insomnia';
@@ -27,6 +28,7 @@ import { ChaptersPage } from '../pages/chapters/chapters';
 import { SearchPage } from '../pages/search/search';
 import { InteractionPage } from '../pages/interaction/interaction';
 import { InteractionPartialPage } from '../pages/interaction-partial/interaction-partial';
+import { NERPopOverPage } from '../pages/ner-popover/ner-popover';
 import { InteractionMorePage } from '../pages/interaction-more/interaction-more';
 import { BookmarkListsPage } from '../pages/bookmark-lists/bookmark-lists';
 import { BookmarksPage } from '../pages/bookmarks/bookmarks';
@@ -50,6 +52,7 @@ Amplify.configure(aws_exports);
     SearchPage,
     InteractionPage,
     InteractionPartialPage,
+    NERPopOverPage,
     InteractionMorePage,
     BookmarkListsPage,
     BookmarksPage,
@@ -74,6 +77,7 @@ Amplify.configure(aws_exports);
     SearchPage,
     InteractionPage,
     InteractionPartialPage,
+    NERPopOverPage,
     InteractionMorePage,
     BookmarkListsPage,
     BookmarksPage,
@@ -84,6 +88,7 @@ Amplify.configure(aws_exports);
     AppRate,
     Clipboard,
     DeviceFeedback,
+    EmailComposer,
     HeaderColor,
     InAppBrowser,
     Insomnia,
