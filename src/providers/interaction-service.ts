@@ -12,7 +12,7 @@ export class InteractionService {
   }
 
   get(bookid: string, chapterNumber: number, verseNumbers: any[]) {
-    return API.get('BibleInteractionAPI', '/data/'+ bookid + '/' + chapterNumber, { response: true })
+    return API.get('BibleInteractionAPI', '/data/'+ bookid + '/' + chapterNumber, {})
     .then(res => {
       let entities: Array<NERModel> = [];
 
