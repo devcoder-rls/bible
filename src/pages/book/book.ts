@@ -5,7 +5,7 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 
-import { Analytics } from 'aws-amplify';
+import { AmplifyService }  from 'aws-amplify-angular';
 
 import { ChapterService } from '../../providers/chapter-service';
 import { BookmarkService } from '../../providers/bookmark-service';
@@ -55,7 +55,7 @@ export class BookPage {
   showActions: boolean = false;
   stateActions: string = 'hide';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private clipboard: Clipboard, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, public chapterService: ChapterService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public amplify: AmplifyService, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController, private clipboard: Clipboard, private socialSharing: SocialSharing, private deviceFeedback: DeviceFeedback, public chapterService: ChapterService, public bookmarkService: BookmarkService, public lastBookVisitedService: LastBookVisitedService, public settingsService: SettingsService) {
     this._setCurrentBook(navParams.get('book'), navParams.get('chapterNumber'));
     this.initialVerserNumberVisible = navParams.get('verseNumber');
 
@@ -80,7 +80,7 @@ export class BookPage {
       }, 100);
     }
 
-    Analytics.record('ChapterVisit', {
+    this.amplify.analytics().record('ChapterVisit', {
       'bookShortName': this.book.shortName,
       'chapterNumber': this.currentChapterNumber
     });

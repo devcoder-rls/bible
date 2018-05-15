@@ -6,6 +6,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+
 import { LastBookVisitedService }  from '../providers/last-book-visited-service';
 import { SettingsService } from '../providers/settings-service';
 
@@ -19,9 +21,6 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Toast } from '@ionic-native/toast';
-
-import Amplify from 'aws-amplify';
-import aws_exports from '../assets/aws-exports';
 
 import { HomePage } from '../pages/home/home';
 import { BooksPage } from '../pages/books/books';
@@ -38,8 +37,6 @@ import { SettingsPage } from '../pages/settings/settings';
 import { PopOverPage } from '../pages/popover/popover';
 
 import { HighlightPipe } from '../pipes/highlight-pipe';
-
-Amplify.configure(aws_exports);
 
 @NgModule({
   declarations: [
@@ -64,6 +61,7 @@ Amplify.configure(aws_exports);
     HttpClientModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
+    AmplifyAngularModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -84,6 +82,7 @@ Amplify.configure(aws_exports);
     PopOverPage
   ],
   providers: [
+    AmplifyService,
     AppRate,
     Clipboard,
     DeviceFeedback,

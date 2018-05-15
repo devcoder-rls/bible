@@ -3,7 +3,7 @@ import { NavController, NavParams, ViewController, PopoverController } from 'ion
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 
-import { Analytics } from 'aws-amplify';
+import { AmplifyService }  from 'aws-amplify-angular';
 
 import { NERModel }  from '../../models/ner-model'
 import { InteractionService } from '../../providers/interaction-service';
@@ -26,14 +26,14 @@ export class InteractionPartialPage {
 
   loading: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public popoverCtrl: PopoverController, public inappbrowser: InAppBrowser, private deviceFeedback: DeviceFeedback, public interactionService: InteractionService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public amplify: AmplifyService, public popoverCtrl: PopoverController, public inappbrowser: InAppBrowser, private deviceFeedback: DeviceFeedback, public interactionService: InteractionService) {
     this.book = navParams.get('book');
     this.chapterNumber = navParams.get('chapterNumber');
     this.selectedVerses = navParams.get('verses');
 
     this._loadData();
 
-    Analytics.record('interactionPartialVisit', {
+    this.amplify.analytics().record('interactionPartialVisit', {
       'bookShortName': this.book.shortName,
       'chapterNumber': this.chapterNumber,
       'versesNumber': this.selectedVerses.getVerses().map((verse) => verse.number)
@@ -43,7 +43,7 @@ export class InteractionPartialPage {
   open(entity: NERModel) {
     this.deviceFeedback.haptic(0);
 
-    Analytics.record('NEROpen', {
+    this.amplify.analytics().record('NEROpen', {
       'label': entity.label
     });
 
