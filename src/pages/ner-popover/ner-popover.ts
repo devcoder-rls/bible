@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController, AlertController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
-import { EmailComposer } from '@ionic-native/email-composer';
+import { Toast } from '@ionic-native/toast';
+
+import { Analytics } from 'aws-amplify';
 
 import { NERModel }  from '../../models/ner-model'
 
@@ -15,7 +17,12 @@ export class NERPopOverPage {
   title: string;
   entity: NERModel;
 
-  constructor(public navParams: NavParams, public viewCtrl: ViewController, public inappbrowser: InAppBrowser, private emailComposer: EmailComposer, private deviceFeedback: DeviceFeedback) {
+  ERROR_OPTIONS = [
+    {id: '0', text: 'O item não tem relação com o versículo.'},
+    {id: '1', text: 'A imagem não é mostrada ou não confere com o item.'}
+  ];
+
+  constructor(public navParams: NavParams, public viewCtrl: ViewController, public inappbrowser: InAppBrowser, private alertCtrl: AlertController, private deviceFeedback: DeviceFeedback, private toast: Toast) {
     this.title = navParams.get('title');
     this.entity = navParams.get('entity');
   }
@@ -31,34 +38,50 @@ export class NERPopOverPage {
   reportError() {
     this.deviceFeedback.acoustic();
 
-    let content = [
-      this.title,
-      '',
-      'Marque com “x” a opção que melhor traduza o erro:',
-      '',
-      '[  ] O item não tem relação com o versículo.',
-      '[  ] A imagem não é mostrada ou não confere com o item.'
-    ];
-
-    let email = {
-      to: 'mobilebibleapp@gmail.com',
-      subject: 'Aviso de erro',
-      body: content.join('<br/>'),
-    };
-
-    this.emailComposer.hasPermission()
-      .then(hasPermission => {
-        if (hasPermission) {
-          this.emailComposer.open(email);
-        } else {
-          this.emailComposer.requestPermission().then(granted => {
-            console.log('granted', granted);
-            this.emailComposer.open(email);
-          });
-        }
-      })
-      .catch((err) => alert('Email Composer not available'));
-
     this.viewCtrl.dismiss();
+
+    this._showReportOptions();    
+  }
+
+  _showReportOptions() {
+    let inputs = this.ERROR_OPTIONS.map((list) => {
+      return { type: 'radio', label: list.text, value: list.id };
+    });
+
+    let prompt = this.alertCtrl.create({
+      title: 'Aviso de erro',
+      inputs: inputs,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Ok',
+          handler: listId => {
+            if (listId == null)
+              return false;
+
+            this._sendReport(this.ERROR_OPTIONS[listId]);
+          }
+        }
+      ]
+    });
+
+    prompt.present();
+  }
+
+  _sendReport(option) {
+    Analytics.record('NERErrorReport', {
+      'entity': this.entity,
+      'text': option.text
+    });
+
+    try {
+      this.toast.showLongCenter('Aviso enviado com sucesso.')
+        .subscribe(() => {});
+    } catch(err) {
+      console.log(err);
+    }
   }
 }

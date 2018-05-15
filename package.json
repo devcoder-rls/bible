@@ -27,7 +27,6 @@
     "@ionic-native/clipboard": "^4.5.3",
     "@ionic-native/core": "4.5.2",
     "@ionic-native/device-feedback": "4.5.2",
-    "@ionic-native/email-composer": "^4.6.0",
     "@ionic-native/header-color": "4.5.2",
     "@ionic-native/in-app-browser": "4.5.2",
     "@ionic-native/insomnia": "4.5.2",

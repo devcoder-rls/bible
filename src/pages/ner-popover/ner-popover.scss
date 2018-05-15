@@ -7,3 +7,7 @@ page-ner-popover {
 .custom-popover .popover-content {
   width: 50%;
 }
+
+ion-alert .alert-radio-label {
+  white-space: pre-wrap !important;
+}

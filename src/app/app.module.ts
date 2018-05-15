@@ -12,7 +12,6 @@ import { SettingsService } from '../providers/settings-service';
 import { AppRate } from '@ionic-native/app-rate';
 import { Clipboard } from '@ionic-native/clipboard';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
-import { EmailComposer } from '@ionic-native/email-composer';
 import { HeaderColor } from '@ionic-native/header-color';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Insomnia } from '@ionic-native/insomnia';
@@ -88,7 +87,6 @@ Amplify.configure(aws_exports);
     AppRate,
     Clipboard,
     DeviceFeedback,
-    EmailComposer,
     HeaderColor,
     InAppBrowser,
     Insomnia,
