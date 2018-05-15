@@ -5,6 +5,8 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 
+import { Analytics } from 'aws-amplify';
+
 import { ChapterService } from '../../providers/chapter-service';
 import { BookmarkService } from '../../providers/bookmark-service';
 import { VersesSelectedService } from '../../providers/verses-selected-service';
@@ -77,6 +79,11 @@ export class BookPage {
         this._loadNearChapters();
       }, 100);
     }
+
+    Analytics.record('ChapterVisit', {
+      'bookShortName': this.book.shortName,
+      'chapterNumber': this.currentChapterNumber
+    });
   }
 
   ionViewWillEnter() {
