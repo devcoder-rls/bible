@@ -279,8 +279,6 @@ export class BookPage {
     if (this.currentChapterNumber == null)
       throw new Error('Current chapter number not defined.');
 
-    console.log('_loadCurrentChapter', this.currentChapterNumber, offsetTopInit);
-
     this.chapterService.get(this.book, this.currentChapterNumber)
     .subscribe(
       chapter => {
