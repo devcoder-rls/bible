@@ -20,7 +20,7 @@ export class InteractionPartialPage {
 
   book: any;
   chapterNumber: number;
-  verses: VersesSelectedService;
+  selectedVerses: VersesSelectedService;
 
   entities: any;
 
@@ -29,14 +29,14 @@ export class InteractionPartialPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public popoverCtrl: PopoverController, public inappbrowser: InAppBrowser, private deviceFeedback: DeviceFeedback, public interactionService: InteractionService) {
     this.book = navParams.get('book');
     this.chapterNumber = navParams.get('chapterNumber');
-    this.verses = navParams.get('verses');
+    this.selectedVerses = navParams.get('verses');
 
     this._loadData();
 
     Analytics.record('interactionPartialVisit', {
       'bookShortName': this.book.shortName,
       'chapterNumber': this.chapterNumber,
-      'versesNumber': this.verses.getVerses().map((verse) => verse.number)
+      'versesNumber': this.selectedVerses.getVerses().map((verse) => verse.number)
     });
   }
 
@@ -63,7 +63,7 @@ export class InteractionPartialPage {
     this.deviceFeedback.acoustic();
 
     let popover = this.popoverCtrl.create(NERPopOverPage, {
-      "title": this.book.shortName + ', ' + this.chapterNumber + ' : ' + this.verses.formatVersesNumbers(),
+      "title": this.book.shortName + ', ' + this.chapterNumber + ' : ' + this.selectedVerses.formatVersesNumbers(),
       "entity": entity
     }, {
       cssClass: 'custom-popover'
@@ -75,7 +75,7 @@ export class InteractionPartialPage {
   _loadData() {
     this.loading = true;
 
-    let versesNumbers = this.verses.getVerses().map((verse) => verse.number);
+    let versesNumbers = this.selectedVerses.getVerses().map((verse) => verse.number);
 
     this.entities = 
       this.interactionService.get(this.book.id, this.chapterNumber, versesNumbers);
