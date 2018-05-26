@@ -78,7 +78,6 @@
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
     <plugin name="bible-plugin-search" spec="C:\Users\cirillor\Desktop\Projetos\bible-plugin-search" />
-    <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-insomnia" spec="^4.3.0" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
