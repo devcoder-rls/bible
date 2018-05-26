@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
-import { AmplifyService }  from 'aws-amplify-angular';
+import { API } from 'aws-amplify';
 
 import { NERModel }  from '../models/ner-model'
 
 @Injectable()
 export class InteractionService {
 
-  constructor(public http: HttpClient, public amplify: AmplifyService) {
+  constructor(public http: HttpClient) {
   }
 
   get(bookid: string, chapterNumber: number, verseNumbers: any[]) {
-    return this.amplify.api().get('BibleInteractionAPI', '/data/'+ bookid + '/' + chapterNumber, {})
+    return API.get('BibleInteractionAPI', '/data/'+ bookid + '/' + chapterNumber, {})
     .then(res => {
       let entities: Array<NERModel> = [];
 

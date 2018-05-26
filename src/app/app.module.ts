@@ -6,8 +6,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 
-import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-
 import { LastBookVisitedService }  from '../providers/last-book-visited-service';
 import { SettingsService } from '../providers/settings-service';
 
@@ -60,8 +58,7 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    IonicModule.forRoot(MyApp),
-    AmplifyAngularModule,
+    IonicModule.forRoot(MyApp),    
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -82,7 +79,6 @@ import { HighlightPipe } from '../pipes/highlight-pipe';
     PopOverPage
   ],
   providers: [
-    AmplifyService,
     AppRate,
     Clipboard,
     DeviceFeedback,

@@ -4,7 +4,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DeviceFeedback } from '@ionic-native/device-feedback';
 import { Toast } from '@ionic-native/toast';
 
-import { AmplifyService }  from 'aws-amplify-angular';
+import { Analytics } from 'aws-amplify';
 
 import { NERModel }  from '../../models/ner-model'
 
@@ -22,7 +22,7 @@ export class NERPopOverPage {
     {id: '1', text: 'A imagem não é mostrada ou não confere com o item.'}
   ];
 
-  constructor(public navParams: NavParams, public viewCtrl: ViewController, public amplify: AmplifyService, public inappbrowser: InAppBrowser, private alertCtrl: AlertController, private deviceFeedback: DeviceFeedback, private toast: Toast) {
+  constructor(public navParams: NavParams, public viewCtrl: ViewController, public inappbrowser: InAppBrowser, private alertCtrl: AlertController, private deviceFeedback: DeviceFeedback, private toast: Toast) {
     this.title = navParams.get('title');
     this.entity = navParams.get('entity');
   }
@@ -72,7 +72,7 @@ export class NERPopOverPage {
   }
 
   _sendReport(option) {
-    this.amplify.analytics().record('NERErrorReport', {
+    Analytics.record('NERErrorReport', {
       'entity': this.entity,
       'text': option.text
     });
