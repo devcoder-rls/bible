@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 
 import { BookModel }  from './book-model'
 
@@ -12,7 +11,6 @@ export class PassageModel {
   }
 }
 
-@Injectable()
 export class ChapterModel {
 
   constructor( public book: BookModel, public number: number, public passages: PassageModel[] ) {
